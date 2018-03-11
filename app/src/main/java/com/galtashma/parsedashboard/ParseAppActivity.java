@@ -9,9 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
+import com.galtashma.lazyparse.LazyList;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseSchema;
 import com.parse.ParseSchemaQuery;
 
@@ -42,22 +45,13 @@ public class ParseAppActivity extends AppCompatActivity {
         });
 
 
-        ParseSchemaQuery query =  new ParseSchemaQuery();
-        List<ParseSchema> schemas;
-        try {
-            schemas = query.find();
-            Log.i("ParseAppActivity", "schemas " + schemas.size() + " " + schemas);
+        ParseSchemaQuery<LazyParseSchema> query = LazyParseSchema.getQuery();
+        LazyList<LazyParseSchema> list = new LazyList<LazyParseSchema>(query);
+        SchemaListAdapter adapter  = new SchemaListAdapter(this, list);
 
-        } catch (ParseException e) {
-            Log.e("ParseAppActivity", "Error", e);
-            e.printStackTrace();
-            return;
-        }
-
-        for (ParseSchema schema : schemas){
-            Log.i("ParseAppActivity", "schema " + schema.getClassName() + " " + schema.getFields());
-        }
-
+        ListView listView = findViewById(R.id.list_view);
+        listView.setAdapter(adapter);
+//        listView.setOnScrollListener(new ScrollInfiniteListener(adapter));
 
     }
 
@@ -66,6 +60,8 @@ public class ParseAppActivity extends AppCompatActivity {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         builder.networkInterceptors().add(httpLoggingInterceptor);
+
+        ParseObject.registerSubclass(LazyParseSchema.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(appId)
