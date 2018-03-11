@@ -29,4 +29,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1' // for logging API calls to LogCat
 
     compile project(path: ':Parse')
+
+    compile ('com.github.bitterbit:LazyParse:579dab81e8') {
+        exclude group: 'com.parse'
+        exclude group: 'com.android.support'
+    }
 }

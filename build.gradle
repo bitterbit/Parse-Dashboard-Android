@@ -6,9 +6,6 @@ buildscript {
         google()
         jcenter()
         repositories {
-            maven {
-                url "https://plugins.gradle.org/m2/"
-            }
         }
     }
     dependencies {
@@ -22,19 +19,15 @@ buildscript {
 
 }
 
-//
-//ext {
-//    compileSdkVersion = 26
-//    targetSdkVersion 26
-//    minSdkVersion 15
-//}
-
 apply plugin: "com.jfrog.bintray"
 
 allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://jitpack.io'
+        }
     }
 }
 
