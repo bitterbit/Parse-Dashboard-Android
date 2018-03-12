@@ -5,20 +5,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.galtashma.lazyparse.LazyList;
+import com.galtashma.lazyparse.ScrollInfiniteListener;
 import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseSchema;
 import com.parse.ParseSchemaQuery;
-
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -46,12 +42,13 @@ public class ParseAppActivity extends AppCompatActivity {
 
 
         ParseSchemaQuery<LazyParseSchema> query = LazyParseSchema.getQuery();
+
         LazyList<LazyParseSchema> list = new LazyList<LazyParseSchema>(query);
         SchemaListAdapter adapter  = new SchemaListAdapter(this, list);
 
-        ListView listView = findViewById(R.id.list_view);
+        ListView listView = findViewById(R.id.list_view_view);
         listView.setAdapter(adapter);
-//        listView.setOnScrollListener(new ScrollInfiniteListener(adapter));
+        listView.setOnScrollListener(new ScrollInfiniteListener(adapter));
 
     }
 
