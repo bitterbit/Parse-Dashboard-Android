@@ -1,5 +1,6 @@
 package com.galtashma.parsedashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
@@ -50,6 +52,20 @@ public class ParseAppActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new ScrollInfiniteListener(adapter));
 
+        adapter.setClickListener(new SchemaListAdapter.OnSchemaItemClickListener() {
+            @Override
+            public void onClick(LazyParseSchema schema) {
+                showTable(schema.getClassName());
+            }
+        });
+    }
+
+    private void showTable(String tableName){
+        Toast.makeText(this, "Clicked " + tableName, Toast.LENGTH_SHORT).show();
+
+        Intent i = new Intent(this, ParseTableActivity.class);
+        i.putExtra("table_name", tableName);
+        this.startActivityForResult(i, 1);
     }
 
     private void initParse(String appId, String serverUrl, String masterKey){

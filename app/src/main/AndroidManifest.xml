@@ -19,6 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ParseTableActivity"
+            android:label="@string/title_activity_parse_table"
+            android:parentActivityName=".ParseAppActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.galtashma.parsedashboard.ParseAppActivity" />
+        </activity>
     </application>
 
 </manifest>
