@@ -30,7 +30,7 @@ dependencies {
 
     compile project(path: ':Parse')
 
-    compile ('com.github.bitterbit:LazyParse:14aaedd869') {
+    compile ('com.github.bitterbit:LazyParse:c1263c403d') {
         exclude group: 'com.parse'
         exclude group: 'com.android.support'
     }

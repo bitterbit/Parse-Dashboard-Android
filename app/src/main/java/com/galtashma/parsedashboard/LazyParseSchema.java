@@ -1,6 +1,5 @@
 package com.galtashma.parsedashboard;
 
-import com.galtashma.lazyparse.LazyParseObject;
 import com.parse.ParseClassName;
 import com.parse.ParseSchema;
 import com.parse.ParseSchemaQuery;
@@ -10,7 +9,7 @@ import com.parse.ParseSchemaQuery;
  */
 
 @ParseClassName("_Lazy_Schema")
-public class LazyParseSchema extends ParseSchema implements LazyParseObject{
+public class LazyParseSchema extends ParseSchema {
     LazyParseSchema() {
         super();
     }
