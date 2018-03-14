@@ -28,6 +28,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.galtashma.parsedashboard.screens.ParseAppActivity" />
         </activity>
+        <activity
+            android:name=".screens.ParseObjectActivity"
+            android:label="@string/title_activity_parse_object"
+            android:parentActivityName=".screens.ParseTableActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.galtashma.parsedashboard.screens.ParseTableActivity" />
+        </activity>
     </application>
 
 </manifest>

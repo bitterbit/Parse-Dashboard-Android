@@ -13,7 +13,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.galtashma.lazyparse.LazyList;
+import com.galtashma.lazyparse.ScrollInfiniteAdapter;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
+import com.galtashma.parsedashboard.Const;
 import com.galtashma.parsedashboard.LazyParseSchema;
 import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.SchemaListAdapter;
@@ -55,10 +57,10 @@ public class ParseAppActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new ScrollInfiniteListener(adapter));
 
-        adapter.setClickListener(new SchemaListAdapter.OnSchemaItemClickListener() {
+        adapter.setOnClickListener(new ScrollInfiniteAdapter.OnClickListener<LazyParseSchema>(){
             @Override
-            public void onClick(LazyParseSchema schema) {
-                showTable(schema.getClassName());
+            public void onClick(LazyParseSchema parseObject) {
+                showTable(parseObject.getClassName());
             }
         });
     }
@@ -67,7 +69,7 @@ public class ParseAppActivity extends AppCompatActivity {
         Toast.makeText(this, "Clicked " + tableName, Toast.LENGTH_SHORT).show();
 
         Intent i = new Intent(this, ParseTableActivity.class);
-        i.putExtra("table_name", tableName);
+        i.putExtra(Const.BUNDLE_KEY_CLASS_NAME, tableName);
         this.startActivityForResult(i, 1);
     }
 

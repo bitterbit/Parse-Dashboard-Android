@@ -16,11 +16,6 @@ import com.galtashma.lazyparse.ScrollInfiniteAdapter;
  */
 
 public class SchemaListAdapter extends ScrollInfiniteAdapter<LazyParseSchema> {
-    interface OnSchemaItemClickListener {
-        void onClick(LazyParseSchema schema);
-    }
-
-    private OnSchemaItemClickListener listener;
 
     public SchemaListAdapter(Context context, LazyList<LazyParseSchema> lazyValues) {
         super(context, lazyValues, android.R.layout.simple_list_item_1, 15);
@@ -31,14 +26,6 @@ public class SchemaListAdapter extends ScrollInfiniteAdapter<LazyParseSchema> {
         final TextView tv = view.findViewById(android.R.id.text1);
         tv.setTextColor(Color.BLACK);
         tv.setText(lazyParseSchema.getClassName());
-
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callListenerOnClick(lazyParseSchema);
-            }
-        });
-
         return view;
     }
 
@@ -49,16 +36,4 @@ public class SchemaListAdapter extends ScrollInfiniteAdapter<LazyParseSchema> {
         tv.setText("Loading...");
         return view;
     }
-
-    public void callListenerOnClick(LazyParseSchema schema){
-        if(listener != null){
-            listener.onClick(schema);
-        }
-    }
-
-
-    public void setClickListener(OnSchemaItemClickListener listener){
-        this.listener = listener;
-    }
-
 }

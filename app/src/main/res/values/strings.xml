@@ -91,4 +91,5 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_parse_table">ParseTableActivity</string>
+    <string name="title_activity_parse_object">ParseObjectActivity</string>
 </resources>
