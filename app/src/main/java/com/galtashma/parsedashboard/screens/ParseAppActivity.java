@@ -1,4 +1,4 @@
-package com.galtashma.parsedashboard;
+package com.galtashma.parsedashboard.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
+import com.galtashma.parsedashboard.LazyParseSchema;
+import com.galtashma.parsedashboard.R;
+import com.galtashma.parsedashboard.SchemaListAdapter;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseSchemaQuery;

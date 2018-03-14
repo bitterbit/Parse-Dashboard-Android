@@ -14,7 +14,7 @@ public class LazyParseSchema extends ParseSchema {
         super();
     }
 
-    static LazyParseSchemaQuery getQuery(){
+    public static LazyParseSchemaQuery getQuery(){
         return new LazyParseSchemaQuery();
     }
 

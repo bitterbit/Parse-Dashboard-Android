@@ -1,4 +1,4 @@
-package com.galtashma.parsedashboard;
+package com.galtashma.parsedashboard.screens;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +12,8 @@ import android.widget.ListView;
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.LazyParseObjectHolder;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
+import com.galtashma.parsedashboard.ObjectListAdapter;
+import com.galtashma.parsedashboard.R;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -35,9 +37,8 @@ public class ParseTableActivity extends AppCompatActivity {
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
         String tableName = getIntent().getExtras().getString("table_name");
+        setTitle(tableName);
 
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(tableName);
