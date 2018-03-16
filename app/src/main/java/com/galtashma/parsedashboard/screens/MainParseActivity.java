@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -23,7 +24,6 @@ import java.util.List;
 
 public class MainParseActivity extends AppCompatActivity implements MaterialDialog.SingleButtonCallback, ParseAppsAdapter.ParseAppAdapterListener {
 
-    private MaterialDialog dialog = null;
     private ParseServerConfigStorage storage;
 
     private LinearLayout emptyStateLayout;
@@ -75,7 +75,7 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
     }
 
     private void showDialog(){
-        this.dialog = new MaterialDialog.Builder(this)
+        new MaterialDialog.Builder(this)
                 .title("Add Parse Server")
                 .customView(R.layout.add_app_dialog, true)
                 .positiveText("OK")
@@ -85,23 +85,24 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
 
     @Override
     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-        if (dialog != null){
-            View v = dialog.getCustomView();
-            EditText appName = v.findViewById(R.id.inputAppName);
-            EditText appId = v.findViewById(R.id.inputAppId);
-            EditText masterKey = v.findViewById(R.id.inputAppMasterKey);
-            EditText serverUrl = v.findViewById(R.id.inputServerUrl);
+        ParseServerConfig serverConfig = getConfigFromDialog(dialog);
+        storage.saveServer(serverConfig);
+        adapter.add(serverConfig);
+        adapter.notifyDataSetChanged();
 
-            ParseServerConfig serverConfig = new ParseServerConfig(
-                    appName.getText().toString(),
-                    appId.getText().toString(),
-                    masterKey.getText().toString(),
-                    serverUrl.getText().toString());
+    }
 
-            storage.saveServer(serverConfig);
-            adapter.add(serverConfig);
-            adapter.notifyDataSetChanged();
-        }
+    private ParseServerConfig getConfigFromDialog(MaterialDialog dialog){
+        View v = dialog.getCustomView();
+        EditText appName = v.findViewById(R.id.inputAppName);
+        EditText appId = v.findViewById(R.id.inputAppId);
+        EditText masterKey = v.findViewById(R.id.inputAppMasterKey);
+        EditText serverUrl = v.findViewById(R.id.inputServerUrl);
+        return new ParseServerConfig(
+                appName.getText().toString(),
+                appId.getText().toString(),
+                masterKey.getText().toString(),
+                serverUrl.getText().toString());
     }
 
     @Override
@@ -112,8 +113,30 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
     }
 
     @Override
-    public void onClickEdit(ParseServerConfig config) {
-        showDialog();
+    public void onClickEdit(final ParseServerConfig config) {
+
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("Edit Parse Server")
+                .customView(R.layout.add_app_dialog, true)
+                .positiveText("OK")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        adapter.remove(config);
+                        storage.deleteServer(config.appId);
+                        ParseServerConfig newConfig = getConfigFromDialog(dialog);
+                        adapter.add(newConfig);
+                        storage.saveServer(newConfig);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .show();
+
+        View v = dialog.getCustomView();
+        ((EditText)v.findViewById(R.id.inputAppName)).setText(config.appName);
+        ((EditText)v.findViewById(R.id.inputAppId)).setText(config.appId);
+        ((EditText)v.findViewById(R.id.inputAppMasterKey)).setText(config.masterKey);
+        ((EditText)v.findViewById(R.id.inputServerUrl)).setText(config.serverUrl);
     }
 
     @Override
