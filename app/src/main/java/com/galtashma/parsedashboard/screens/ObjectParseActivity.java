@@ -7,11 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.galtashma.parsedashboard.Const;
-import com.galtashma.parsedashboard.ObjectFieldsArrayAdapter;
+import com.galtashma.parsedashboard.adapters.ParseObjectFieldsAdapter;
 import com.galtashma.parsedashboard.ParseField;
 import com.galtashma.parsedashboard.R;
 import com.parse.GetCallback;
@@ -68,7 +67,7 @@ public class ObjectParseActivity extends AppCompatActivity implements GetCallbac
             fields.add(new ParseField(key, object.get(key).toString()));
         }
 
-        ObjectFieldsArrayAdapter adapter = new ObjectFieldsArrayAdapter(this, fields);
+        ParseObjectFieldsAdapter adapter = new ParseObjectFieldsAdapter(this, fields);
         listView.setAdapter(adapter);
     }
 }

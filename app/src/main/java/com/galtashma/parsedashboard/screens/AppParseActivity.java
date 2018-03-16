@@ -18,7 +18,7 @@ import com.galtashma.lazyparse.ScrollInfiniteListener;
 import com.galtashma.parsedashboard.Const;
 import com.galtashma.parsedashboard.LazyParseSchema;
 import com.galtashma.parsedashboard.R;
-import com.galtashma.parsedashboard.SchemaListAdapter;
+import com.galtashma.parsedashboard.adapters.ParseClassesAdapter;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseSchemaQuery;
@@ -51,7 +51,7 @@ public class AppParseActivity extends AppCompatActivity {
         ParseSchemaQuery<LazyParseSchema> query = LazyParseSchema.getQuery();
 
         LazyList<LazyParseSchema> list = new LazyList<LazyParseSchema>(query);
-        SchemaListAdapter adapter  = new SchemaListAdapter(this, list);
+        ParseClassesAdapter adapter  = new ParseClassesAdapter(this, list);
 
         ListView listView = findViewById(R.id.list_view_view);
         listView.setAdapter(adapter);

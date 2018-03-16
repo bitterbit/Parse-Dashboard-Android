@@ -1,4 +1,4 @@
-package com.galtashma.parsedashboard;
+package com.galtashma.parsedashboard.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.LazyParseObjectHolder;
 import com.galtashma.lazyparse.ScrollInfiniteAdapter;
+import com.galtashma.parsedashboard.R;
 import com.lucasurbas.listitemview.ListItemView;
 import com.parse.ParseObject;
 
@@ -20,9 +21,9 @@ import java.util.Map;
  * Created by gal on 3/14/18.
  */
 
-public class ObjectListAdapter extends ScrollInfiniteAdapter<ParseObject> {
+public class ParseObjectsAdapter extends ScrollInfiniteAdapter<ParseObject> {
 
-    public ObjectListAdapter(Context context, LazyList<ParseObject> lazyValues) {
+    public ParseObjectsAdapter(Context context, LazyList<ParseObject> lazyValues) {
         super(context, lazyValues, R.layout.list_item, 15);
     }
 

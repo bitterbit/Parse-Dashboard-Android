@@ -14,7 +14,7 @@ import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.ScrollInfiniteAdapter;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
 import com.galtashma.parsedashboard.Const;
-import com.galtashma.parsedashboard.ObjectListAdapter;
+import com.galtashma.parsedashboard.adapters.ParseObjectsAdapter;
 import com.galtashma.parsedashboard.R;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -43,7 +43,7 @@ public class ClassParseActivity extends AppCompatActivity implements ScrollInfin
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(tableName);
         LazyList<ParseObject> list = new LazyList<ParseObject>(query);
-        ObjectListAdapter adapter  = new ObjectListAdapter(this, list);
+        ParseObjectsAdapter adapter  = new ParseObjectsAdapter(this, list);
 
         ListView listView = findViewById(R.id.list_view_view);
         listView.setAdapter(adapter);

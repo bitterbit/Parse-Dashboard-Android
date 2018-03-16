@@ -1,4 +1,4 @@
-package com.galtashma.parsedashboard;
+package com.galtashma.parsedashboard.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.LazyParseObjectHolder;
 import com.galtashma.lazyparse.ScrollInfiniteAdapter;
+import com.galtashma.parsedashboard.LazyParseSchema;
+import com.galtashma.parsedashboard.R;
 import com.lucasurbas.listitemview.ListItemView;
 
 import java.util.ArrayList;
@@ -18,9 +20,9 @@ import java.util.List;
  * Created by gal on 3/9/18.
  */
 
-public class SchemaListAdapter extends ScrollInfiniteAdapter<LazyParseSchema> {
+public class ParseClassesAdapter extends ScrollInfiniteAdapter<LazyParseSchema> {
 
-    public SchemaListAdapter(Context context, LazyList<LazyParseSchema> lazyValues) {
+    public ParseClassesAdapter(Context context, LazyList<LazyParseSchema> lazyValues) {
         super(context, lazyValues, R.layout.list_item, 15);
     }
 
