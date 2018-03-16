@@ -12,11 +12,13 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.afollestad.ason.Ason;
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.ScrollInfiniteAdapter;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
 import com.galtashma.parsedashboard.Const;
 import com.galtashma.parsedashboard.LazyParseSchema;
+import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.adapters.ParseClassesAdapter;
 import com.parse.Parse;
@@ -36,7 +38,13 @@ public class AppParseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        initParse(getString(R.string.parse_app_id), getString(R.string.parse_server_url), getString(R.string.parse_master_key));
+        String parseConfigJson = getIntent().getExtras().getString(Const.BUNDLE_KEY_PARSE_CONFIG);
+        ParseServerConfig config = Ason.deserialize(parseConfigJson, ParseServerConfig.class);
+
+        initParse(config.appId, config.serverUrl, config.masterKey);
+        setTitle(config.appName);
+
+        // initParse(getString(R.string.parse_app_id), getString(R.string.parse_server_url), getString(R.string.parse_master_key));
 
         ParseSchemaQuery<LazyParseSchema> query = LazyParseSchema.getQuery();
 

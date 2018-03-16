@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.afollestad.ason.Ason;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.galtashma.parsedashboard.ParseServerConfig;
@@ -21,6 +22,8 @@ import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.adapters.ParseAppsAdapter;
 
 import java.util.List;
+
+import static com.galtashma.parsedashboard.Const.BUNDLE_KEY_PARSE_CONFIG;
 
 public class MainParseActivity extends AppCompatActivity implements MaterialDialog.SingleButtonCallback, ParseAppsAdapter.ParseAppAdapterListener {
 
@@ -108,7 +111,7 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
     @Override
     public void onClickOpen(ParseServerConfig config) {
         Intent i = new Intent(this, AppParseActivity.class);
-        i.putExtra("config", "");
+        i.putExtra(BUNDLE_KEY_PARSE_CONFIG, Ason.serialize(config).toString());
         this.startActivityForResult(i, 1);
     }
 
