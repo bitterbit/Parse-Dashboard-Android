@@ -26,7 +26,13 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String tableName = getIntent().getExtras().getString(Const.BUNDLE_KEY_CLASS_NAME);
+
+        Bundle extra = getIntent().getExtras();
+        if (extra == null){
+            extra = savedInstanceState;
+        }
+
+        String tableName = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
         setTitle(tableName);
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(tableName);

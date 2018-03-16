@@ -34,7 +34,13 @@ public class SingleAppParseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String parseConfigJson = getIntent().getExtras().getString(Const.BUNDLE_KEY_PARSE_CONFIG);
+
+        Bundle extra = getIntent().getExtras();
+        if (extra == null){
+            extra = savedInstanceState;
+        }
+
+        String parseConfigJson = extra.getString(Const.BUNDLE_KEY_PARSE_CONFIG);
         ParseServerConfig config = Ason.deserialize(parseConfigJson, ParseServerConfig.class);
 
         initParse(config.appId, config.serverUrl, config.masterKey);

@@ -34,6 +34,10 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extra = getIntent().getExtras();
+        if (extra == null){
+            extra = savedInstanceState;
+        }
+
         String className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
         String objectId = extra.getString(Const.BUNDLE_KEY_OBJECT_ID);
 
