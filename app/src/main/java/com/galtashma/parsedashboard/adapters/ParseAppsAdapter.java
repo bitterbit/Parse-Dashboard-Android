@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,8 @@ import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.R;
 import com.lucasurbas.listitemview.ListItemView;
 
+import org.xml.sax.helpers.ParserAdapter;
+
 import java.util.List;
 
 /**
@@ -19,13 +22,22 @@ import java.util.List;
  */
 
 public class ParseAppsAdapter extends ArrayAdapter<ParseServerConfig> {
+
+    public interface ParseAppAdapterListener{
+        void onClickOpen(ParseServerConfig config);
+        void onClickEdit(ParseServerConfig config);
+        void onClickDelete(ParseServerConfig config);
+    }
+
+    private ParseAppAdapterListener listener;
+
     public ParseAppsAdapter(@NonNull Context context, @NonNull List<ParseServerConfig> objects) {
         super(context, R.layout.card_list_item, objects);
     }
 
     @NonNull
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        ParseServerConfig server = getItem(position);
+        final ParseServerConfig server = getItem(position);
 
         if(convertView == null) {
             convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.card_list_item, parent, false);
@@ -34,10 +46,47 @@ public class ParseAppsAdapter extends ArrayAdapter<ParseServerConfig> {
         ListItemView item = (ListItemView) convertView.findViewById(R.id.parse_server_list_item);
         item.setTitle(server.appName);
         item.setSubtitle(server.serverUrl+"\n"+server.appId);
-//        item.setIconResId(R.drawable.ic_plus_24dp);
-//        item.setIconColor(Color.RED);
-//        item.setCircularIconColor(Color.RED);
+
+        item.setOnMenuItemClickListener(new ListItemView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+                if (item.getItemId() == R.id.action_edit){
+                    notifyEdit(server);
+                } else if(item.getItemId() == R.id.action_remove) {
+                    notifyDelete(server);
+                }
+            }
+        });
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notifyClick(server);
+            }
+        });
 
         return convertView;
     }
+
+    private void notifyClick(ParseServerConfig config){
+        if (listener!=null){
+            listener.onClickOpen(config);
+        }
+    }
+
+    private void notifyEdit(ParseServerConfig config){
+        if (listener != null){
+            listener.onClickEdit(config);
+        }
+    }
+
+    private void notifyDelete(ParseServerConfig config){
+        if (listener != null){
+            this.listener.onClickDelete(config);
+        }
+    }
+
+    public void setListener(ParseAppAdapterListener listener) {
+        this.listener = listener;
+    }
+
 }

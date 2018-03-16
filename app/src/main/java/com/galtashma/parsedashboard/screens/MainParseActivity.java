@@ -1,5 +1,6 @@
 package com.galtashma.parsedashboard.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -20,7 +21,7 @@ import com.galtashma.parsedashboard.adapters.ParseAppsAdapter;
 
 import java.util.List;
 
-public class MainParseActivity extends AppCompatActivity implements MaterialDialog.SingleButtonCallback {
+public class MainParseActivity extends AppCompatActivity implements MaterialDialog.SingleButtonCallback, ParseAppsAdapter.ParseAppAdapterListener {
 
     private MaterialDialog dialog = null;
     private ParseServerConfigStorage storage;
@@ -40,7 +41,6 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
             @Override
             public void onClick(View view) {
                 showDialog();
-
             }
         });
 
@@ -55,6 +55,8 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
         List<ParseServerConfig> list = storage.getServers();
         ParseAppsAdapter adapter = new ParseAppsAdapter(this, list);
         configuredServersView.setAdapter(adapter);
+
+        adapter.setListener(this);
     }
 
     private boolean isMainScreenEmpty(){
@@ -97,5 +99,22 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
 
             storage.saveServer(serverConfig);
         }
+    }
+
+    @Override
+    public void onClickOpen(ParseServerConfig config) {
+        Intent i = new Intent(this, AppParseActivity.class);
+        i.putExtra("config", "");
+        this.startActivityForResult(i, 1);
+    }
+
+    @Override
+    public void onClickEdit(ParseServerConfig config) {
+        showDialog();
+    }
+
+    @Override
+    public void onClickDelete(ParseServerConfig config) {
+        // TODO: implement
     }
 }
