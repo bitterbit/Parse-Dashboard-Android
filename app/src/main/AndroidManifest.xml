@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".screens.MainParseActivity"
+            android:name=".screens.AppsMenuParseActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,30 +19,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screens.AppParseActivity"
+            android:name=".screens.SingleAppParseActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.galtashma.parsedashboard.screens.MainParseActivity" />
+                android:value="com.galtashma.parsedashboard.screens.AppsMenuParseActivity" />
         </activity>
         <activity
-            android:name=".screens.ClassParseActivity"
+            android:name=".screens.SingleClassParseActivity"
             android:label="@string/title_activity_parse_table"
-            android:parentActivityName=".screens.AppParseActivity"
+            android:parentActivityName=".screens.SingleAppParseActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.galtashma.parsedashboard.screens.AppParseActivity" />
+                android:value="com.galtashma.parsedashboard.screens.SingleAppParseActivity" />
         </activity>
         <activity
-            android:name=".screens.ObjectParseActivity"
+            android:name=".screens.SingleObjectParseActivity"
             android:label="@string/title_activity_parse_object"
-            android:parentActivityName=".screens.ClassParseActivity"
+            android:parentActivityName=".screens.SingleClassParseActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.galtashma.parsedashboard.screens.ClassParseActivity" />
+                android:value="com.galtashma.parsedashboard.screens.SingleClassParseActivity" />
         </activity>
 
     </application>

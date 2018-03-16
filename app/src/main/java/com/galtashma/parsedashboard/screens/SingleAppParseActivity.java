@@ -2,15 +2,11 @@ package com.galtashma.parsedashboard.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.afollestad.ason.Ason;
 import com.galtashma.lazyparse.LazyList;
@@ -29,7 +25,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 
-public class AppParseActivity extends AppCompatActivity {
+public class SingleAppParseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +60,7 @@ public class AppParseActivity extends AppCompatActivity {
     }
 
     private void showTable(String tableName){
-        Intent i = new Intent(this, ClassParseActivity.class);
+        Intent i = new Intent(this, SingleClassParseActivity.class);
         i.putExtra(Const.BUNDLE_KEY_CLASS_NAME, tableName);
         this.startActivityForResult(i, 1);
     }
