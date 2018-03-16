@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.galtashma.parsedashboard"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -34,4 +34,6 @@ dependencies {
         exclude group: 'com.parse'
         exclude group: 'com.android.support'
     }
+
+    compile 'com.lucasurbas:listitemview:1.1.0'
 }
