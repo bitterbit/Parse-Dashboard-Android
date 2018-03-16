@@ -48,8 +48,6 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
 
     @Override
     public void onClick(ParseObject parseObject) {
-        Toast.makeText(this, "Clicked " + parseObject.getObjectId(), Toast.LENGTH_SHORT).show();
-
         Intent i = new Intent(this, SingleObjectParseActivity.class);
         i.putExtra(Const.BUNDLE_KEY_CLASS_NAME, parseObject.getClassName());
         i.putExtra(Const.BUNDLE_KEY_OBJECT_ID, parseObject.getObjectId());
