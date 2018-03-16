@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- app:layout_behavior="@string/appbar_scrolling_view_behavior" -->
+<ListView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_view_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="#00000000"
+    android:dividerHeight="0dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.galtashma.parsedashboard.screens.AppParseActivity"
-    tools:showIn="@layout/activity_parse_app">
-
-    <ListView
-        android:id="@+id/list_view_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="#00000000"
-        android:dividerHeight="0dp"
-        android:layout_gravity="fill_vertical" />
-
-</LinearLayout>
+    android:layout_gravity="fill_vertical" />

@@ -38,16 +38,6 @@ public class AppParseActivity extends AppCompatActivity {
 
         initParse(getString(R.string.parse_app_id), getString(R.string.parse_server_url), getString(R.string.parse_master_key));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
         ParseSchemaQuery<LazyParseSchema> query = LazyParseSchema.getQuery();
 
         LazyList<LazyParseSchema> list = new LazyList<LazyParseSchema>(query);
@@ -66,8 +56,6 @@ public class AppParseActivity extends AppCompatActivity {
     }
 
     private void showTable(String tableName){
-        Toast.makeText(this, "Clicked " + tableName, Toast.LENGTH_SHORT).show();
-
         Intent i = new Intent(this, ClassParseActivity.class);
         i.putExtra(Const.BUNDLE_KEY_CLASS_NAME, tableName);
         this.startActivityForResult(i, 1);

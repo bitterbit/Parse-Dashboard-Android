@@ -27,15 +27,6 @@ public class ClassParseActivity extends AppCompatActivity implements ScrollInfin
         setContentView(R.layout.activity_parse_table);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String tableName = getIntent().getExtras().getString(Const.BUNDLE_KEY_CLASS_NAME);
