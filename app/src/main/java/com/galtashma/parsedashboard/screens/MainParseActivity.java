@@ -28,6 +28,7 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
 
     private LinearLayout emptyStateLayout;
     private ListView configuredServersView;
+    private ParseAppsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
         toggleMainScreen(isMainScreenEmpty());
 
         List<ParseServerConfig> list = storage.getServers();
-        ParseAppsAdapter adapter = new ParseAppsAdapter(this, list);
+        adapter = new ParseAppsAdapter(this, list);
         configuredServersView.setAdapter(adapter);
 
         adapter.setListener(this);
@@ -98,6 +99,8 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
                     serverUrl.getText().toString());
 
             storage.saveServer(serverConfig);
+            adapter.add(serverConfig);
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -115,6 +118,9 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
 
     @Override
     public void onClickDelete(ParseServerConfig config) {
-        // TODO: implement
+        storage.deleteServer(config.appId);
+        adapter.remove(config);
+        adapter.notifyDataSetChanged();
+        toggleMainScreen(isMainScreenEmpty());
     }
 }
