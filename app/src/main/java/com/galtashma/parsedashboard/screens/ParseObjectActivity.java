@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.galtashma.parsedashboard.Const;
+import com.galtashma.parsedashboard.ObjectFieldsArrayAdapter;
+import com.galtashma.parsedashboard.ParseField;
 import com.galtashma.parsedashboard.R;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -40,11 +42,12 @@ public class ParseObjectActivity extends AppCompatActivity implements GetCallbac
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        listView = (ListView) findViewById(R.id.list_view_view);
-
         Bundle extra = getIntent().getExtras();
         String className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
         String objectId = extra.getString(Const.BUNDLE_KEY_OBJECT_ID);
+
+        listView = (ListView) findViewById(R.id.list_view_view);
+
 
         setTitle(String.format("%s - %s", className, objectId));
 
@@ -60,9 +63,12 @@ public class ParseObjectActivity extends AppCompatActivity implements GetCallbac
             return;
         }
 
-        ArrayList<String> fields = new ArrayList<String>();
-        fields.addAll(object.keySet());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fields);
+        ArrayList<ParseField> fields = new ArrayList<>();
+        for (String key : object.keySet()){
+            fields.add(new ParseField(key, object.get(key).toString()));
+        }
+
+        ObjectFieldsArrayAdapter adapter = new ObjectFieldsArrayAdapter(this, fields);
         listView.setAdapter(adapter);
     }
 }
