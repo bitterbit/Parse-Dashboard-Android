@@ -58,6 +58,11 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
             return;
         }
 
+        if (object == null){
+            Log.e(Const.TAG, "Error while fetching object. object is null");
+            return;
+        }
+
         ArrayList<ParseField> fields = new ArrayList<>();
         for (String key : object.keySet()){
             fields.add(new ParseField(key, object.get(key).toString()));
