@@ -32,7 +32,17 @@ public class ParseObjectFieldsAdapter extends ArrayAdapter<ParseField> {
         }
 
         ListItemView view = (ListItemView) convertView;
-        view.setTitle(details.value);
+
+        if (details == null){
+            return convertView;
+        }
+
+        if (details.value == null || details.value.isEmpty()){
+            view.setTitle("<empty>");
+        } else {
+            view.setTitle(details.value);
+        }
+
         view.setSubtitle(details.key);
 
         return convertView;
