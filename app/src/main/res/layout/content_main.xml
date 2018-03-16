@@ -8,10 +8,44 @@
     tools:context="com.galtashma.parsedashboard.screens.MainParseActivity"
     tools:showIn="@layout/activity_main">
 
-    <ListView
-        android:id="@+id/parse_apps_list"
+
+    <LinearLayout
+        android:id="@+id/empty_state_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_parse_24dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            android:text="@string/empty_state_short"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/empty_state_long"
+            />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/configured_servers_list"
+        android:background="@color/colorGray"
+        android:divider="#00000000"
+        android:dividerHeight="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </ListView>
 
 </android.support.constraint.ConstraintLayout>

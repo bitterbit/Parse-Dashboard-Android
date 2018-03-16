@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_view"
+        card_view:cardElevation="2dp"
+        card_view:cardCornerRadius="1dp"
+        card_view:cardUseCompatPadding="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+        <com.lucasurbas.listitemview.ListItemView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/parse_server_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:liv_icon="@drawable/ic_parse_24dp"
+            app:liv_displayMode="icon"
+            app:liv_multiline="true"
+            app:liv_menu="@menu/parse_app_item_menu" />
+
+</android.support.v7.widget.CardView>

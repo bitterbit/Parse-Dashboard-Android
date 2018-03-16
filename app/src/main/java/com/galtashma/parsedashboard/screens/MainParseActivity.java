@@ -1,30 +1,32 @@
 package com.galtashma.parsedashboard.screens;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.simplelist.MaterialSimpleListAdapter;
-import com.afollestad.materialdialogs.simplelist.MaterialSimpleListItem;
 import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.ParseServerConfigStorage;
 import com.galtashma.parsedashboard.R;
+import com.galtashma.parsedashboard.adapters.ParseAppsAdapter;
+
+import java.util.List;
 
 public class MainParseActivity extends AppCompatActivity implements MaterialDialog.SingleButtonCallback {
 
     private MaterialDialog dialog = null;
     private ParseServerConfigStorage storage;
+
+    private LinearLayout emptyStateLayout;
+    private ListView configuredServersView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,6 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -44,8 +44,31 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
             }
         });
 
-         storage = new ParseServerConfigStorage(getApplicationContext());
-         Log.i("TAG", storage.getServers().toString());
+        emptyStateLayout = (LinearLayout) findViewById(R.id.empty_state_layout);
+        configuredServersView = (ListView) findViewById(R.id.configured_servers_list);
+
+        storage = new ParseServerConfigStorage(getApplicationContext());
+        Log.i("TAG", storage.getServers().toString());
+
+        toggleMainScreen(isMainScreenEmpty());
+
+        List<ParseServerConfig> list = storage.getServers();
+        ParseAppsAdapter adapter = new ParseAppsAdapter(this, list);
+        configuredServersView.setAdapter(adapter);
+    }
+
+    private boolean isMainScreenEmpty(){
+        return storage.getServers().isEmpty();
+    }
+
+    private void toggleMainScreen(boolean isEmpty){
+        if(isEmpty){
+            configuredServersView.setVisibility(View.GONE);
+            emptyStateLayout.setVisibility(View.VISIBLE);
+        } else {
+            configuredServersView.setVisibility(View.VISIBLE);
+            emptyStateLayout.setVisibility(View.GONE);
+        }
     }
 
     private void showDialog(){
