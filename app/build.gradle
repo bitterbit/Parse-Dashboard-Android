@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -22,18 +23,29 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1' // for logging API calls to LogCat
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    // for logging API calls to LogCat
 
     compile project(path: ':Parse')
 
-    compile ('com.github.bitterbit:LazyParse:0e6785db99') {
+    compile('com.github.bitterbit:LazyParse:0e6785db99') {
         exclude group: 'com.parse'
         exclude group: 'com.android.support'
     }
 
     compile 'com.lucasurbas:listitemview:1.1.0'
+
+    implementation('com.afollestad.material-dialogs:core:0.9.6.0')
+    implementation('com.afollestad.material-dialogs:commons:0.9.6.0')
+
+
+    compile('com.afollestad:ason:+') {
+        exclude group: 'org.json', module: 'json'
+    }
+
 }

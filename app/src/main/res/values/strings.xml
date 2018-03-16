@@ -92,4 +92,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_parse_table">ParseTableActivity</string>
     <string name="title_activity_parse_object">ParseObjectActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="application_name">Application Name</string>
+    <string name="application_id">Application ID</string>
+    <string name="master_key">Master Key</string>
+    <string name="server_url">Server URL</string>
 </resources>
