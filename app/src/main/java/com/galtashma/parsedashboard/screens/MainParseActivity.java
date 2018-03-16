@@ -92,7 +92,7 @@ public class MainParseActivity extends AppCompatActivity implements MaterialDial
         storage.saveServer(serverConfig);
         adapter.add(serverConfig);
         adapter.notifyDataSetChanged();
-
+        toggleMainScreen(isMainScreenEmpty());
     }
 
     private ParseServerConfig getConfigFromDialog(MaterialDialog dialog){
