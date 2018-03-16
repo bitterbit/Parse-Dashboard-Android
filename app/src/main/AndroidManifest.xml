@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".screens.ParseAppActivity"
+            android:name=".screens.AppParseActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,22 +20,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screens.ParseTableActivity"
+            android:name=".screens.ClassParseActivity"
             android:label="@string/title_activity_parse_table"
-            android:parentActivityName=".screens.ParseAppActivity"
+            android:parentActivityName=".screens.AppParseActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.galtashma.parsedashboard.screens.ParseAppActivity" />
+                android:value="com.galtashma.parsedashboard.screens.AppParseActivity" />
         </activity>
         <activity
-            android:name=".screens.ParseObjectActivity"
+            android:name=".screens.ObjectParseActivity"
             android:label="@string/title_activity_parse_object"
-            android:parentActivityName=".screens.ParseTableActivity"
+            android:parentActivityName=".screens.ClassParseActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.galtashma.parsedashboard.screens.ParseTableActivity" />
+                android:value="com.galtashma.parsedashboard.screens.ClassParseActivity" />
         </activity>
     </application>
 

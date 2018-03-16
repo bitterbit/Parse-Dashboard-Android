@@ -21,7 +21,7 @@ import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 
-public class ParseObjectActivity extends AppCompatActivity implements GetCallback<ParseObject> {
+public class ObjectParseActivity extends AppCompatActivity implements GetCallback<ParseObject> {
 
     private ListView listView;
 

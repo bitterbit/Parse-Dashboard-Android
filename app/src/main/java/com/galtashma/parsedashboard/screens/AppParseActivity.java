@@ -27,7 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 
-public class ParseAppActivity extends AppCompatActivity {
+public class AppParseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class ParseAppActivity extends AppCompatActivity {
     private void showTable(String tableName){
         Toast.makeText(this, "Clicked " + tableName, Toast.LENGTH_SHORT).show();
 
-        Intent i = new Intent(this, ParseTableActivity.class);
+        Intent i = new Intent(this, ClassParseActivity.class);
         i.putExtra(Const.BUNDLE_KEY_CLASS_NAME, tableName);
         this.startActivityForResult(i, 1);
     }

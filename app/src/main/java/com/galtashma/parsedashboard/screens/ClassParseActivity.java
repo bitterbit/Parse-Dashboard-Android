@@ -19,7 +19,7 @@ import com.galtashma.parsedashboard.R;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-public class ParseTableActivity extends AppCompatActivity implements ScrollInfiniteAdapter.OnClickListener<ParseObject> {
+public class ClassParseActivity extends AppCompatActivity implements ScrollInfiniteAdapter.OnClickListener<ParseObject> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class ParseTableActivity extends AppCompatActivity implements ScrollInfin
     public void onClick(ParseObject parseObject) {
         Toast.makeText(this, "Clicked " + parseObject.getObjectId(), Toast.LENGTH_SHORT).show();
 
-        Intent i = new Intent(this, ParseObjectActivity.class);
+        Intent i = new Intent(this, ObjectParseActivity.class);
         i.putExtra(Const.BUNDLE_KEY_CLASS_NAME, parseObject.getClassName());
         i.putExtra(Const.BUNDLE_KEY_OBJECT_ID, parseObject.getObjectId());
         this.startActivityForResult(i, 1);
