@@ -62,7 +62,12 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
 
         ArrayList<ParseField> fields = new ArrayList<>();
         for (String key : object.keySet()){
-            fields.add(new ParseField(key, object.get(key).toString()));
+            Object value = object.get(key);
+            if (value == null){
+                value = "<empty>";
+            }
+
+            fields.add(new ParseField(key, value.toString()));
         }
 
         ParseObjectFieldsAdapter adapter = new ParseObjectFieldsAdapter(this, fields);

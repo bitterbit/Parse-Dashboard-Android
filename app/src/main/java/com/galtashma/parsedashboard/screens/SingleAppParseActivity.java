@@ -40,6 +40,11 @@ public class SingleAppParseActivity extends AppCompatActivity {
             extra = savedInstanceState;
         }
 
+        if (extra == null || !extra.containsKey(Const.BUNDLE_KEY_PARSE_CONFIG)){
+            finish();
+            return;
+        }
+
         String parseConfigJson = extra.getString(Const.BUNDLE_KEY_PARSE_CONFIG);
         ParseServerConfig config = Ason.deserialize(parseConfigJson, ParseServerConfig.class);
 

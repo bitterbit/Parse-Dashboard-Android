@@ -31,6 +31,11 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
             extra = savedInstanceState;
         }
 
+        if (extra == null || !extra.containsKey(Const.BUNDLE_KEY_CLASS_NAME)){
+            finish();
+            return;
+        }
+
         String tableName = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
         setTitle(tableName);
 
