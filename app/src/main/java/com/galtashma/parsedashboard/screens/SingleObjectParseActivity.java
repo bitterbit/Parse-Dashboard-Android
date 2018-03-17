@@ -1,12 +1,9 @@
 package com.galtashma.parsedashboard.screens;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.ListView;
 
 import com.galtashma.parsedashboard.Const;
@@ -27,7 +24,7 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parse_object);
+        setContentView(R.layout.activity_single_object);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

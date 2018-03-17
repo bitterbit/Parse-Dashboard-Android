@@ -35,6 +35,4 @@
 
     <include layout="@layout/content_parse_app"/>
 
-    <!-- app:srcCompat="@android:drawable/ic_dialog_email" -->
-
 </android.support.design.widget.CoordinatorLayout>

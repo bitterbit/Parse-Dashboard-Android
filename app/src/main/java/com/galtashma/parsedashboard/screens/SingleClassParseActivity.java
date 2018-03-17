@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.ScrollInfiniteAdapter;
@@ -21,7 +20,7 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parse_table);
+        setContentView(R.layout.activity_single_class);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
