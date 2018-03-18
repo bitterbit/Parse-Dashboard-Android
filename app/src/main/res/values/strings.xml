@@ -12,7 +12,7 @@
     <string name="empty_state_apps_screen_long">It looks a little empty here. Add your first Parse App by tapping the + icon below.</string>
     <string name="empty_state_schemas_screen_short">No Schemas</string>
     <string name="empty_state_schemas_screen_long">There may have been an error. We didn\'t find any schemas.</string>
-    <string name="empty_state_objects_screen_short">No Objects</string>
+    <string name="empty_state_objects_screen_short">No Objects yet</string>
     <string name="empty_state_objects_screen_long">We didn\'t find any parse objects in this class.</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
 </resources>
