@@ -468,7 +468,7 @@ public class Parse {
     }
   }
 
-  static void destroy() {
+  public static void destroy() {
     ParseEventuallyQueue queue;
     synchronized (MUTEX) {
       queue = eventuallyQueue;

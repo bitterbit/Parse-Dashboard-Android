@@ -6,23 +6,26 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.afollestad.ason.Ason;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.ParseServerConfigStorage;
 import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.adapters.ParseAppsAdapter;
+import com.galtashma.parsedashboard.Const;
+import com.parse.Parse;
 
 import java.util.List;
 
-import static com.galtashma.parsedashboard.Const.BUNDLE_KEY_PARSE_CONFIG;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+
+
 
 public class AppsMenuParseActivity extends AppCompatActivity implements MaterialDialog.SingleButtonCallback, ParseAppsAdapter.ParseAppAdapterListener {
 
@@ -49,16 +52,12 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 
         emptyStateLayout = (LinearLayout) findViewById(R.id.empty_state_layout);
         configuredServersView = (ListView) findViewById(R.id.configured_servers_list);
-
         storage = new ParseServerConfigStorage(getApplicationContext());
-        Log.i("TAG", storage.getServers().toString());
-
         toggleMainScreen(isMainScreenEmpty());
 
         List<ParseServerConfig> list = storage.getServers();
         adapter = new ParseAppsAdapter(this, list);
         configuredServersView.setAdapter(adapter);
-
         adapter.setListener(this);
     }
 
@@ -109,8 +108,12 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 
     @Override
     public void onClickOpen(ParseServerConfig config) {
+        // Re init parse sdk so we can open a new parse app
+        Parse.destroy();
+        initParse(config.appId, config.serverUrl, config.masterKey);
+
         Intent i = new Intent(this, SingleAppParseActivity.class);
-        i.putExtra(BUNDLE_KEY_PARSE_CONFIG, Ason.serialize(config).toString());
+        i.putExtra(Const.BUNDLE_KEY_PARSE_APP_NAME, config.appName);
         this.startActivityForResult(i, 1);
     }
 
@@ -147,5 +150,19 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         adapter.remove(config);
         adapter.notifyDataSetChanged();
         toggleMainScreen(isMainScreenEmpty());
+    }
+
+    private void initParse(String appId, String serverUrl, String masterKey){
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.networkInterceptors().add(httpLoggingInterceptor);
+
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId(appId)
+                .server(serverUrl)
+                .masterKey(masterKey)
+                .clientBuilder(builder)
+                .build());
     }
 }

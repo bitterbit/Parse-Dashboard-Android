@@ -34,24 +34,22 @@ public class SingleAppParseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         Bundle extra = getIntent().getExtras();
         if (extra == null){
             extra = savedInstanceState;
         }
 
-        if (extra == null || !extra.containsKey(Const.BUNDLE_KEY_PARSE_CONFIG)){
-            finish();
-            return;
+        if (extra != null && extra.containsKey(Const.BUNDLE_KEY_PARSE_APP_NAME)){
+            setTitle(extra.getString(Const.BUNDLE_KEY_PARSE_APP_NAME));
         }
 
-        String parseConfigJson = extra.getString(Const.BUNDLE_KEY_PARSE_CONFIG);
-        ParseServerConfig config = Ason.deserialize(parseConfigJson, ParseServerConfig.class);
-
-        initParse(config.appId, config.serverUrl, config.masterKey);
-        setTitle(config.appName);
-
         adapter = new ParseClassesAdapter(this);
+        adapter.setListener(new ParseClassesAdapter.OnClickListener() {
+            @Override
+            public void onSchemaClicked(ParseSchema schema) {
+                showTable(schema.getName());
+            }
+        });
         ListView listView = findViewById(R.id.list_view_view);
         listView.setAdapter(adapter);
 
@@ -63,19 +61,13 @@ public class SingleAppParseActivity extends AppCompatActivity {
                 return null;
             }
         });
-
-        adapter.setListener(new ParseClassesAdapter.OnClickListener() {
-            @Override
-            public void onSchemaClicked(ParseSchema schema) {
-                showTable(schema.getName());
-            }
-        });
     }
 
     private void updateListOnUIThread(final List<ParseSchema> schemas){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                adapter.clear();
                 adapter.addAll(schemas);
                 adapter.notifyDataSetChanged();
             }
@@ -86,19 +78,5 @@ public class SingleAppParseActivity extends AppCompatActivity {
         Intent i = new Intent(this, SingleClassParseActivity.class);
         i.putExtra(Const.BUNDLE_KEY_CLASS_NAME, tableName);
         this.startActivityForResult(i, 1);
-    }
-
-    private void initParse(String appId, String serverUrl, String masterKey){
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
-        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        builder.networkInterceptors().add(httpLoggingInterceptor);
-
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId(appId)
-                .server(serverUrl)
-                .masterKey(masterKey)
-                .clientBuilder(builder)
-                .build());
     }
 }

@@ -7,7 +7,7 @@ package com.galtashma.parsedashboard;
 public class Const {
     public static final String TAG = "ParseDashboard";
 
-    public static final String BUNDLE_KEY_PARSE_CONFIG = "parse_config";
+    public static final String BUNDLE_KEY_PARSE_APP_NAME = "app_name";
     public static final String BUNDLE_KEY_CLASS_NAME = "table_name";
     public static final String BUNDLE_KEY_OBJECT_ID = "object_id";
 
