@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 public class SingleObjectParseActivity extends AppCompatActivity implements GetCallback<ParseObject> {
 
+    private String className, objectId;
     private ListView listView;
     private ProgressRelativeLayout statefulLayout;
 
@@ -39,14 +40,17 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
             extra = savedInstanceState;
         }
 
-        String className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
-        String objectId = extra.getString(Const.BUNDLE_KEY_OBJECT_ID);
+        className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
+        objectId = extra.getString(Const.BUNDLE_KEY_OBJECT_ID);
         setTitle(String.format("%s - %s", className, objectId));
 
         statefulLayout = findViewById(R.id.stateful_layout);
-        statefulLayout.showLoading();
-
         listView = (ListView) findViewById(R.id.list_view);
+        fetch();
+    }
+
+    private void fetch(){
+        statefulLayout.showLoading();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
         query.whereEqualTo("objectId", objectId);
         query.getFirstInBackground(this);
@@ -90,6 +94,7 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         statefulLayout.showError(R.drawable.ic_parse_24dp, "Error", message, "Retry", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fetch();
             }
         });
     }
