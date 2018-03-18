@@ -5,6 +5,7 @@
 /.idea/libraries
 .DS_Store
 /build
+/Parse/build
 /captures
 .externalNativeBuild
 ids.xml
