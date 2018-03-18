@@ -23,6 +23,8 @@ import com.parse.ParseQuery;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SingleObjectParseActivity extends AppCompatActivity implements GetCallback<ParseObject>, View.OnLongClickListener {
 
@@ -77,6 +79,9 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         statefulLayout.showContent();
 
         ArrayList<ParseField> fields = new ArrayList<>();
+        fields.add(new ParseField("objectId", object.getObjectId()));
+        fields.add(new ParseField("createdAt", object.getCreatedAt().toString()));
+        fields.add(new ParseField("updatedAt", object.getUpdatedAt().toString()));
         for (String key : object.keySet()){
             Object value = object.get(key);
             if (value == null){
