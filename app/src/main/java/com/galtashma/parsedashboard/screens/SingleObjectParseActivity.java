@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.galtashma.parsedashboard.Const;
 import com.galtashma.parsedashboard.adapters.ParseObjectFieldsAdapter;
@@ -37,12 +38,9 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
 
         String className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
         String objectId = extra.getString(Const.BUNDLE_KEY_OBJECT_ID);
-
-        listView = (ListView) findViewById(R.id.list_view_view);
-
-
         setTitle(String.format("%s - %s", className, objectId));
 
+        listView = (ListView) findViewById(R.id.list_view_view);
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
         query.whereEqualTo("objectId", objectId);
         query.getFirstInBackground(this);
@@ -72,5 +70,10 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
 
         ParseObjectFieldsAdapter adapter = new ParseObjectFieldsAdapter(this, fields);
         listView.setAdapter(adapter);
+    }
+
+    private void setTitle(String text){
+        this.getSupportActionBar().setTitle("");
+        ((TextView)findViewById(R.id.big_title_text)).setText(text);
     }
 }

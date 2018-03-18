@@ -6,5 +6,6 @@
     <color name="colorPrimaryGray">#b0bbc1</color>
     <color name="colorGray">#FFE0E0E0</color>
     <color name="colorAccent">#F5A623</color>
-    <color name="colorAccent2">#FF395E</color>>
+    <color name="colorAccent2">#FF395E</color>
+    <color name="colorWhite">#fff</color>
 </resources>
