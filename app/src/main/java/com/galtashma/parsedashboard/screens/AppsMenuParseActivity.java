@@ -65,7 +65,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
     private void toggleMainScreen(boolean isEmpty){
         ProgressRelativeLayout layout = (ProgressRelativeLayout) findViewById(R.id.stateful_layout);
         if(isEmpty){
-            layout.showEmpty(R.drawable.ic_parse_24dp, getString(R.string.empty_state_short), getString(R.string.empty_state_long));
+            layout.showEmpty(R.drawable.ic_parse_24dp, getString(R.string.empty_state_apps_screen_short), getString(R.string.empty_state_apps_screen_long));
         } else {
             layout.showContent();
         }

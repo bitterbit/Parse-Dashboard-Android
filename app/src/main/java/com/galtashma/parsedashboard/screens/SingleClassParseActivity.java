@@ -14,6 +14,7 @@ import com.galtashma.parsedashboard.adapters.ParseObjectsAdapter;
 import com.galtashma.parsedashboard.R;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 public class SingleClassParseActivity extends AppCompatActivity implements ScrollInfiniteAdapter.OnClickListener<ParseObject> {
 
@@ -39,6 +40,9 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         String tableName = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
         setTitle(tableName);
 
+        ProgressRelativeLayout statefulLayout = findViewById(R.id.stateful_layout);
+        statefulLayout.showContent();
+
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(tableName);
         LazyList<ParseObject> list = new LazyList<ParseObject>(query);
         ParseObjectsAdapter adapter  = new ParseObjectsAdapter(this, list);
@@ -48,6 +52,10 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         listView.setOnScrollListener(new ScrollInfiniteListener(adapter));
 
         adapter.setOnClickListener(this);
+
+        if (list.getLimit() == 0){
+            statefulLayout.showEmpty(R.drawable.ic_parse_24dp, getString(R.string.empty_state_objects_screen_short), getString(R.string.empty_state_objects_screen_long));
+        }
     }
 
     @Override

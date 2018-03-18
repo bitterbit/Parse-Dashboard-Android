@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,12 +16,14 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import java.util.ArrayList;
 
 public class SingleObjectParseActivity extends AppCompatActivity implements GetCallback<ParseObject> {
 
     private ListView listView;
+    private ProgressRelativeLayout statefulLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,9 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         String objectId = extra.getString(Const.BUNDLE_KEY_OBJECT_ID);
         setTitle(String.format("%s - %s", className, objectId));
 
+        statefulLayout = findViewById(R.id.stateful_layout);
+        statefulLayout.showLoading();
+
         listView = (ListView) findViewById(R.id.list_view);
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
         query.whereEqualTo("objectId", objectId);
@@ -50,13 +56,17 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
     public void done(ParseObject object, ParseException e) {
         if (e != null){
             Log.e(Const.TAG, "Error while fetching object", e);
+            showError("Error fetching Parse Object.", e);
             return;
         }
 
         if (object == null){
             Log.e(Const.TAG, "Error while fetching object. object is null");
+            showError("Empty Parse Object.");
             return;
         }
+
+        statefulLayout.showContent();
 
         ArrayList<ParseField> fields = new ArrayList<>();
         for (String key : object.keySet()){
@@ -70,6 +80,18 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
 
         ParseObjectFieldsAdapter adapter = new ParseObjectFieldsAdapter(this, fields);
         listView.setAdapter(adapter);
+    }
+
+    private void showError(String message, Exception e){
+        showError(message + "\n" + e.getMessage());
+    }
+
+    private void showError(String message){
+        statefulLayout.showError(R.drawable.ic_parse_24dp, "Error", message, "Retry", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
     }
 
     private void setTitle(String text){

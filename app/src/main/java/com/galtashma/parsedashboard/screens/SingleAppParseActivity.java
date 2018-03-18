@@ -14,6 +14,7 @@ import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.adapters.ParseClassesAdapter;
 import com.parse.Parse;
 import com.parse.ParseSchema;
+import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class SingleAppParseActivity extends AppCompatActivity {
 
     private ParseClassesAdapter adapter;
+    private ProgressRelativeLayout statefulLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class SingleAppParseActivity extends AppCompatActivity {
         if (extra != null && extra.containsKey(Const.BUNDLE_KEY_PARSE_APP_NAME)){
             setTitle(extra.getString(Const.BUNDLE_KEY_PARSE_APP_NAME));
         }
+
+        statefulLayout = findViewById(R.id.stateful_layout);
+        statefulLayout.showLoading();
 
         adapter = new ParseClassesAdapter(this);
         adapter.setListener(new ParseClassesAdapter.OnClickListener() {
@@ -67,11 +72,20 @@ public class SingleAppParseActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (schemas.size() == 0){
+                    showEmptyState();
+                    return;
+                }
+                statefulLayout.showContent();
                 adapter.clear();
                 adapter.addAll(schemas);
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void showEmptyState(){
+        statefulLayout.showEmpty(R.drawable.ic_parse_24dp, getString(R.string.empty_state_schemas_screen_short), getString(R.string.empty_state_schemas_screen_long));
     }
 
     private void showTable(String tableName){

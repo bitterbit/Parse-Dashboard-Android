@@ -8,6 +8,10 @@
     <string name="application_id">Application ID</string>
     <string name="master_key">Master Key</string>
     <string name="server_url">Server URL</string>
-    <string name="empty_state_short">No Parse Apps</string>
-    <string name="empty_state_long">It looks a little empty here. Add your first Parse App by tapping the + icon below.</string>
+    <string name="empty_state_apps_screen_short">No Parse Apps</string>
+    <string name="empty_state_apps_screen_long">It looks a little empty here. Add your first Parse App by tapping the + icon below.</string>
+    <string name="empty_state_schemas_screen_short">No Schemas</string>
+    <string name="empty_state_schemas_screen_long">There may have been an error. We didn\'t find any schemas.</string>
+    <string name="empty_state_objects_screen_short">No Objects</string>
+    <string name="empty_state_objects_screen_long">We didn\'t find any parse objects in this class.</string>
 </resources>
