@@ -1,0 +1,210 @@
+import com.android.builder.core.BuilderConstants
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'com.jfrog.bintray'
+
+group = 'com.parse'
+version = '1.16.7'
+
+ext {
+    projDescription = 'A library that gives you access to the powerful Parse cloud platform from your Android app.'
+    artifact = 'parse-android'
+    projName = 'Parse-Android'
+    gitLink = 'https://github.com/parse-community/Parse-SDK-Android'
+}
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1'
+    }
+}
+
+android {
+    compileSdkVersion 26 //rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion 15 //rootProject.ext.minSdkVersion
+        targetSdkVersion 26 // rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName project.version
+        consumerProguardFiles 'release-proguard.pro'
+    }
+
+    packagingOptions {
+        exclude '**/BuildConfig.class'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+    }
+}
+
+ext {
+    okhttpVersion = '3.9.1'
+}
+
+dependencies {
+    api "com.android.support:support-annotations:26.1.0"
+    api 'com.parse.bolts:bolts-tasks:1.4.0'
+    api "com.squareup.okhttp3:okhttp:3.10.0"
+
+    testImplementation 'org.robolectric:robolectric:3.3.2'
+    testImplementation 'org.skyscreamer:jsonassert:1.5.0'
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+}
+
+android.libraryVariants.all { variant ->
+    def name = variant.buildType.name
+
+    def javadoc = task("javadoc${variant.name.capitalize()}", type: Javadoc) {
+        description "Generates Javadoc for $variant.name."
+        source = variant.javaCompile.source
+        ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+
+        options.docletpath = [rootProject.file("./gradle/ExcludeDoclet.jar")]
+        options.doclet = "me.grantland.doclet.ExcludeDoclet"
+
+        options.linksOffline("http://d.android.com/reference", "${android.sdkDirectory}/docs/reference")
+        options.links("http://boltsframework.github.io/docs/android/")
+
+        exclude '**/BuildConfig.java'
+        exclude '**/R.java'
+        exclude '**/internal/**'
+    }
+
+    def javadocJar = task("javadocJar${variant.name.capitalize()}", type: Jar, dependsOn: "javadoc${variant.name.capitalize()}") {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    if (name.equals(BuilderConstants.RELEASE)) {
+        artifacts.add('archives', javadocJar);
+    }
+}
+
+//region Maven
+
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+def isSnapshot = version.endsWith('-SNAPSHOT')
+def ossrhUsername = hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : System.getenv('CI_NEXUS_USERNAME')
+def ossrhPassword = hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : System.getenv('CI_NEXUS_PASSWORD')
+
+def pomConfig = {
+    licenses {
+        license {
+            name 'BSD License'
+            url 'https://github.com/parse-community/Parse-SDK-Android/blob/master/LICENSE'
+            distribution 'repo'
+        }
+    }
+
+    scm {
+       connection 'scm:git@github.com:parse-community/Parse-SDK-Android.git'
+       developerConnection 'scm:git@github.com:parse-community/Parse-SDK-Android.git'
+       url gitLink
+    }
+
+    developers {
+        developer {
+            id 'parse'
+            name 'Parse'
+        }
+    }
+}
+
+
+uploadArchives {
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
+
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+            authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
+
+        def basePom = {
+            name projName
+            artifactId = artifact
+            packaging 'aar'
+            description projDescription
+            url gitLink
+        }
+
+        pom.project basePom << pomConfig
+    }
+}
+
+signing {
+    required { !isSnapshot && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+artifacts {
+    archives androidSourcesJar
+}
+
+//endregion
+
+//region Code Coverage
+
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion "0.7.1.201405082137"
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: "${buildDir}/intermediates/classes/debug",
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    sourceDirectories = files("${buildDir.parent}/src/main/java")
+    additionalSourceDirs = files([
+            "${buildDir}/generated/source/buildConfig/debug",
+            "${buildDir}/generated/source/r/debug"
+    ])
+    executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+//endregion
+
+//region Coveralls
+
+coveralls.jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
+
+//endregion
