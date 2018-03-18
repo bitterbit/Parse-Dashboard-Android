@@ -20,6 +20,8 @@ import java.util.Map;
 
 public class ParseObjectFieldsAdapter extends ArrayAdapter<ParseField> {
 
+    private View.OnLongClickListener longClickListener = null;
+
     public ParseObjectFieldsAdapter(@NonNull Context context, @NonNull List<ParseField> objects) {
         super(context, R.layout.list_item, objects);
     }
@@ -44,7 +46,12 @@ public class ParseObjectFieldsAdapter extends ArrayAdapter<ParseField> {
         }
 
         view.setSubtitle(details.key);
+        view.setOnLongClickListener(longClickListener);
 
         return convertView;
+    }
+
+    public void setLongClickListener(View.OnLongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
     }
 }

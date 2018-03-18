@@ -1,6 +1,9 @@
 package com.galtashma.parsedashboard.screens;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +15,7 @@ import com.galtashma.parsedashboard.Const;
 import com.galtashma.parsedashboard.adapters.ParseObjectFieldsAdapter;
 import com.galtashma.parsedashboard.ParseField;
 import com.galtashma.parsedashboard.R;
+import com.lucasurbas.listitemview.ListItemView;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -20,7 +24,7 @@ import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import java.util.ArrayList;
 
-public class SingleObjectParseActivity extends AppCompatActivity implements GetCallback<ParseObject> {
+public class SingleObjectParseActivity extends AppCompatActivity implements GetCallback<ParseObject>, View.OnLongClickListener {
 
     private String className, objectId;
     private ListView listView;
@@ -83,6 +87,7 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         }
 
         ParseObjectFieldsAdapter adapter = new ParseObjectFieldsAdapter(this, fields);
+        adapter.setLongClickListener(this);
         listView.setAdapter(adapter);
     }
 
@@ -102,5 +107,16 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
     private void setTitle(String text){
         this.getSupportActionBar().setTitle("");
         ((TextView)findViewById(R.id.big_title_text)).setText(text);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        ListItemView listItemView = (ListItemView) view;
+        listItemView.getTitle();
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(listItemView.getSubtitle(), listItemView.getTitle());
+        clipboard.setPrimaryClip(clip);
+        Snackbar.make(statefulLayout, getString(R.string.copied_to_clipboard), Snackbar.LENGTH_LONG).show();
+        return true;
     }
 }
