@@ -1,7 +1,6 @@
 package com.galtashma.parsedashboard.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -12,8 +11,6 @@ import android.widget.ArrayAdapter;
 import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.R;
 import com.lucasurbas.listitemview.ListItemView;
-
-import org.xml.sax.helpers.ParserAdapter;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public class ParseAppsAdapter extends ArrayAdapter<ParseServerConfig> {
     private ParseAppAdapterListener listener;
 
     public ParseAppsAdapter(@NonNull Context context, @NonNull List<ParseServerConfig> objects) {
-        super(context, R.layout.card_list_item, objects);
+        super(context, R.layout.list_item_card, objects);
     }
 
     @NonNull
@@ -40,7 +37,7 @@ public class ParseAppsAdapter extends ArrayAdapter<ParseServerConfig> {
         final ParseServerConfig server = getItem(position);
 
         if(convertView == null) {
-            convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.card_list_item, parent, false);
+            convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.list_item_card, parent, false);
         }
 
         ListItemView item = (ListItemView) convertView.findViewById(R.id.parse_server_list_item);

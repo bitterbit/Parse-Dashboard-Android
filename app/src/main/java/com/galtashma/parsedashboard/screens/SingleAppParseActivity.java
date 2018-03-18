@@ -50,7 +50,7 @@ public class SingleAppParseActivity extends AppCompatActivity {
                 showTable(schema.getName());
             }
         });
-        ListView listView = findViewById(R.id.list_view_view);
+        ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
 
         ParseSchema.getParseSchemasAsync().onSuccess(new Continuation<List<ParseSchema>, Void>() {

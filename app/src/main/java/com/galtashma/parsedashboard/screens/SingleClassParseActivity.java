@@ -43,7 +43,7 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         LazyList<ParseObject> list = new LazyList<ParseObject>(query);
         ParseObjectsAdapter adapter  = new ParseObjectsAdapter(this, list);
 
-        ListView listView = findViewById(R.id.list_view_view);
+        ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new ScrollInfiniteListener(adapter));
 

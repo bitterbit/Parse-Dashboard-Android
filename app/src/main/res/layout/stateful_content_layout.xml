@@ -10,8 +10,7 @@
     android:layout_below="@+id/activityToolbar">
 
     <ListView
-        android:id="@+id/configured_servers_list"
-        android:background="@color/colorGray"
+        android:id="@+id/list_view"
         android:divider="#00000000"
         android:dividerHeight="0dp"
         android:layout_width="match_parent"

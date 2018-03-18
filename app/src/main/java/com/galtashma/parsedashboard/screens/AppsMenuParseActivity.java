@@ -53,7 +53,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 
         List<ParseServerConfig> list = storage.getServers();
         adapter = new ParseAppsAdapter(this, list);
-        ListView listView = findViewById(R.id.configured_servers_list);
+        ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         adapter.setListener(this);
     }
@@ -74,7 +74,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
     private void showDialog(){
         new MaterialDialog.Builder(this)
                 .title("Add Parse Server")
-                .customView(R.layout.add_app_dialog, true)
+                .customView(R.layout.dialog_add_app, true)
                 .positiveText("OK")
                 .onPositive(this)
                 .show();
@@ -118,7 +118,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title("Edit Parse Server")
-                .customView(R.layout.add_app_dialog, true)
+                .customView(R.layout.dialog_add_app, true)
                 .positiveText("OK")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override

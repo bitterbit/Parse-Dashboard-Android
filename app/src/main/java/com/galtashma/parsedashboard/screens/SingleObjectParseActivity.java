@@ -40,7 +40,7 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         String objectId = extra.getString(Const.BUNDLE_KEY_OBJECT_ID);
         setTitle(String.format("%s - %s", className, objectId));
 
-        listView = (ListView) findViewById(R.id.list_view_view);
+        listView = (ListView) findViewById(R.id.list_view);
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
         query.whereEqualTo("objectId", objectId);
         query.getFirstInBackground(this);
