@@ -44,9 +44,9 @@ dependencies {
     implementation('com.afollestad.material-dialogs:core:0.9.6.0')
     implementation('com.afollestad.material-dialogs:commons:0.9.6.0')
 
-
     compile('com.afollestad:ason:+') {
         exclude group: 'org.json', module: 'json'
     }
 
+    compile 'com.github.vlonjatg:progress-activity:2.0.5'
 }

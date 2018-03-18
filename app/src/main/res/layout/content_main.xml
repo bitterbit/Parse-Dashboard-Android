@@ -1,43 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.vlonjatg.progressactivity.ProgressRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:id="@+id/stateful_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.galtashma.parsedashboard.screens.AppsMenuParseActivity"
-    tools:showIn="@layout/activity_apps_menu">
-
-
-    <LinearLayout
-        android:id="@+id/empty_state_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/parse_icon_big"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_parse_24dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="@dimen/text_big_size"
-            android:text="@string/empty_state_short"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="@string/empty_state_long"
-            />
-
-    </LinearLayout>
+    android:layout_below="@+id/activityToolbar">
 
     <ListView
         android:id="@+id/configured_servers_list"
@@ -48,4 +18,4 @@
         android:layout_height="match_parent">
     </ListView>
 
-</android.support.constraint.ConstraintLayout>
+</com.vlonjatg.progressactivity.ProgressRelativeLayout>

@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -19,6 +18,7 @@ import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.adapters.ParseAppsAdapter;
 import com.galtashma.parsedashboard.Const;
 import com.parse.Parse;
+import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import java.util.List;
 
@@ -31,8 +31,6 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 
     private ParseServerConfigStorage storage;
 
-    private LinearLayout emptyStateLayout;
-    private ListView configuredServersView;
     private ParseAppsAdapter adapter;
 
     @Override
@@ -50,14 +48,13 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
             }
         });
 
-        emptyStateLayout = (LinearLayout) findViewById(R.id.empty_state_layout);
-        configuredServersView = (ListView) findViewById(R.id.configured_servers_list);
         storage = new ParseServerConfigStorage(getApplicationContext());
         toggleMainScreen(isMainScreenEmpty());
 
         List<ParseServerConfig> list = storage.getServers();
         adapter = new ParseAppsAdapter(this, list);
-        configuredServersView.setAdapter(adapter);
+        ListView listView = findViewById(R.id.configured_servers_list);
+        listView.setAdapter(adapter);
         adapter.setListener(this);
     }
 
@@ -66,12 +63,11 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
     }
 
     private void toggleMainScreen(boolean isEmpty){
+        ProgressRelativeLayout layout = (ProgressRelativeLayout) findViewById(R.id.stateful_layout);
         if(isEmpty){
-            configuredServersView.setVisibility(View.GONE);
-            emptyStateLayout.setVisibility(View.VISIBLE);
+            layout.showEmpty(R.drawable.ic_parse_24dp, getString(R.string.empty_state_short), getString(R.string.empty_state_long));
         } else {
-            configuredServersView.setVisibility(View.VISIBLE);
-            emptyStateLayout.setVisibility(View.GONE);
+            layout.showContent();
         }
     }
 
