@@ -4,4 +4,5 @@
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="text_big_size">35sp</dimen>
+    <dimen name="parse_icon_big">80dp</dimen>
 </resources>
