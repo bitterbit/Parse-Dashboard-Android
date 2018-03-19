@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 
 import com.afollestad.ason.Ason;
@@ -46,8 +47,6 @@ public class SingleAppParseActivity extends AppCompatActivity {
         }
 
         statefulLayout = findViewById(R.id.stateful_layout);
-        statefulLayout.showLoading();
-
         adapter = new ParseClassesAdapter(this);
         adapter.setListener(new ParseClassesAdapter.OnClickListener() {
             @Override
@@ -57,10 +56,19 @@ public class SingleAppParseActivity extends AppCompatActivity {
         });
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
+        fetchSchemasAsync();
+    }
 
-        ParseSchema.getParseSchemasAsync().onSuccess(new Continuation<List<ParseSchema>, Void>() {
+    private void fetchSchemasAsync(){
+        statefulLayout.showLoading();
+        ParseSchema.getParseSchemasAsync().continueWith(new Continuation<List<ParseSchema>, Void>() {
             @Override
             public Void then(Task<List<ParseSchema>> task) throws Exception {
+                if (task.isFaulted() || task.isCancelled()){
+                    showErrorOnUIThread(getString(R.string.schemas_screen_error_title), task.getError());
+                    return null;
+                }
+
                 Log.i(Const.TAG, "found schemas " + task.getResult());
                 updateListOnUIThread(task.getResult());
                 return null;
@@ -82,6 +90,21 @@ public class SingleAppParseActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void showErrorOnUIThread(final String title, final Exception e){
+        runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                  statefulLayout.showError(R.drawable.ic_parse_24dp, title, e.getLocalizedMessage(), "Retry", new View.OnClickListener() {
+                      @Override
+                      public void onClick(View view) {
+                          fetchSchemasAsync();
+                      }
+                  });
+              }
+        });
+
     }
 
     private void showEmptyState(){
