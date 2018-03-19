@@ -4,9 +4,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_circle"
+        android:roundIcon="@mipmap/ic_launcher_circle"
+
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -46,6 +47,10 @@
                 android:value="com.galtashma.parsedashboard.screens.SingleClassParseActivity" />
         </activity>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ef2dcdc24492870e0cd95b8eba2103403c8dd1ff" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

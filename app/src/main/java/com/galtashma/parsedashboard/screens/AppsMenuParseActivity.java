@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.crashlytics.android.Crashlytics;
 import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.ParseServerConfigStorage;
 import com.galtashma.parsedashboard.R;
@@ -20,6 +21,7 @@ import com.galtashma.parsedashboard.Const;
 import com.parse.Parse;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -36,6 +38,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_apps_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
