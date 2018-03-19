@@ -1,5 +1,5 @@
 # Parse-Dashboard-Android
-A beautiful mobile client for managing your Parse apps on your android phone. 
+A beautiful mobile client for managing your Parse apps on your android phone. [Download from Google Play](https://play.google.com/store/apps/details?id=com.galtashma.parsedashboard&utm_source=github).
 
 <img src="https://github.com/bitterbit/Parse-Dashboard-Android/raw/master/imgs/parse_dashboard_android.png" height=150></img>
 
@@ -10,6 +10,9 @@ A beautiful mobile client for managing your Parse apps on your android phone.
 <img src="https://github.com/bitterbit/Parse-Dashboard-Android/raw/master/imgs/device-2018-03-18-223714.png" width=250></img>
 <img src="https://github.com/bitterbit/Parse-Dashboard-Android/raw/master/imgs/device-2018-03-18-224127.png" width=250></img>
 <img src="https://github.com/bitterbit/Parse-Dashboard-Android/raw/master/imgs/device-2018-03-18-223754.png" width=250></img>
+
+
+<a href='https://play.google.com/store/apps/details?id=com.galtashma.parsedashboard&utm_source=github&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'> <img alt='Get it on Google Play' width=200 src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 
 ## Features
 * Multiple Server Support
