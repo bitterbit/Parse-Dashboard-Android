@@ -11,7 +11,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.galtashma.parsedashboard.Const;
+import com.galtashma.parsedashboard.Hash;
 import com.galtashma.parsedashboard.adapters.ParseObjectFieldsAdapter;
 import com.galtashma.parsedashboard.ParseField;
 import com.galtashma.parsedashboard.R;
@@ -53,6 +56,11 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         statefulLayout = findViewById(R.id.stateful_layout);
         listView = (ListView) findViewById(R.id.list_view);
         fetch();
+
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentId(Hash.sha1(className+objectId))
+                .putContentName("Object Activity")
+                .putContentType("Screen"));
     }
 
     private void fetch(){

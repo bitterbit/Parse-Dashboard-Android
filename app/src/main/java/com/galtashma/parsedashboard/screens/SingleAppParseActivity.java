@@ -9,11 +9,15 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.afollestad.ason.Ason;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.galtashma.parsedashboard.Const;
+import com.galtashma.parsedashboard.Hash;
 import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.adapters.ParseClassesAdapter;
 import com.parse.Parse;
+import com.parse.ParseQuery;
 import com.parse.ParseSchema;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
@@ -36,6 +40,7 @@ public class SingleAppParseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_app);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        String appName = "";
 
         Bundle extra = getIntent().getExtras();
         if (extra == null){
@@ -43,8 +48,10 @@ public class SingleAppParseActivity extends AppCompatActivity {
         }
 
         if (extra != null && extra.containsKey(Const.BUNDLE_KEY_PARSE_APP_NAME)){
-            setTitle(extra.getString(Const.BUNDLE_KEY_PARSE_APP_NAME));
+            appName = extra.getString(Const.BUNDLE_KEY_PARSE_APP_NAME);
         }
+
+        setTitle(appName);
 
         statefulLayout = findViewById(R.id.stateful_layout);
         adapter = new ParseClassesAdapter(this);
@@ -57,6 +64,11 @@ public class SingleAppParseActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         fetchSchemasAsync();
+
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentId(Hash.sha1(appName))
+                .putContentName("App Activity")
+                .putContentType("Screen"));
     }
 
     private void fetchSchemasAsync(){

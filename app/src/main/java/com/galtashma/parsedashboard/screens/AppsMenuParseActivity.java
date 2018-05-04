@@ -14,6 +14,10 @@ import android.widget.ListView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.AnswersEvent;
+import com.crashlytics.android.answers.ContentViewEvent;
+import com.crashlytics.android.answers.CustomEvent;
 import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.ParseServerConfigStorage;
 import com.galtashma.parsedashboard.R;
@@ -24,6 +28,8 @@ import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import io.fabric.sdk.android.Fabric;
 import java.util.List;
+
+import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -60,6 +66,10 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         adapter.setListener(this);
+
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentName("All Apps Activity")
+                .putContentType("Screen"));
     }
 
     private boolean isMainScreenEmpty(){

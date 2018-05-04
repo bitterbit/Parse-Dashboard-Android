@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.ScrollInfiniteAdapter;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
 import com.galtashma.parsedashboard.Const;
+import com.galtashma.parsedashboard.Hash;
 import com.galtashma.parsedashboard.adapters.ParseObjectsAdapter;
 import com.galtashma.parsedashboard.R;
 import com.parse.ParseObject;
@@ -37,13 +40,13 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
             return;
         }
 
-        String tableName = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
-        setTitle(tableName);
+        String className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
+        setTitle(className);
 
         ProgressRelativeLayout statefulLayout = findViewById(R.id.stateful_layout);
         statefulLayout.showContent();
 
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(tableName);
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
         LazyList<ParseObject> list = new LazyList<ParseObject>(query);
         ParseObjectsAdapter adapter  = new ParseObjectsAdapter(this, list);
 
@@ -56,6 +59,11 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         if (list.getLimit() == 0){
             statefulLayout.showEmpty(R.drawable.ic_parse_24dp, getString(R.string.empty_state_objects_screen_short), getString(R.string.empty_state_objects_screen_long));
         }
+
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentId(Hash.sha1(className))
+                .putContentName("Class Activity")
+                .putContentType("Screen"));
     }
 
     @Override
