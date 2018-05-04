@@ -101,6 +101,9 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         adapter.add(serverConfig);
         adapter.notifyDataSetChanged();
         toggleMainScreen(isMainScreenEmpty());
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "add new server config"));
+
     }
 
     private ParseServerConfig getConfigFromDialog(MaterialDialog dialog){
@@ -152,7 +155,6 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 
     @Override
     public void onClickEdit(final ParseServerConfig config) {
-
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title("Edit Parse Server")
                 .customView(R.layout.dialog_add_app, true)
@@ -175,6 +177,9 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         ((EditText)v.findViewById(R.id.inputAppId)).setText(config.appId);
         ((EditText)v.findViewById(R.id.inputAppMasterKey)).setText(config.masterKey);
         ((EditText)v.findViewById(R.id.inputServerUrl)).setText(config.serverUrl);
+
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "edit parse server config"));
     }
 
     @Override
@@ -183,6 +188,8 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         adapter.remove(config);
         adapter.notifyDataSetChanged();
         toggleMainScreen(isMainScreenEmpty());
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "delete parse server config"));
     }
 
     private void initParse(String appId, String serverUrl, String masterKey){

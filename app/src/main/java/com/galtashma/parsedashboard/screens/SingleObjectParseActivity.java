@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
+import com.crashlytics.android.answers.CustomEvent;
 import com.galtashma.parsedashboard.Const;
 import com.galtashma.parsedashboard.Hash;
 import com.galtashma.parsedashboard.adapters.ParseObjectFieldsAdapter;
@@ -137,6 +138,8 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         ClipData clip = ClipData.newPlainText(listItemView.getSubtitle(), listItemView.getTitle());
         clipboard.setPrimaryClip(clip);
         showMessage(getString(R.string.copied_to_clipboard));
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "copied field to clipboard"));
         return true;
     }
 
@@ -158,6 +161,8 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         }
 
         statefulLayout.showEmpty(R.drawable.ic_parse_24dp, "Item Deleted", "The item was successfully deleted.");
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "remove object"));
     }
 
 

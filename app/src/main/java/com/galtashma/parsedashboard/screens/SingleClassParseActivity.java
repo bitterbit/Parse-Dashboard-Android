@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
+import com.crashlytics.android.answers.CustomEvent;
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.ScrollInfiniteAdapter;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
@@ -89,5 +90,7 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
 
     public void onRefresh(MenuItem item) {
         initList((ListView) findViewById(R.id.list_view));
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "refresh class activity"));
     }
 }
