@@ -16,4 +16,8 @@
     <string name="empty_state_objects_screen_long">We didn\'t find any parse objects in this class.</string>
     <string name="schemas_screen_error_title">Error fetching schemas</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="error_server_url_missing">Server url must not be empty</string>
+    <string name="error_server_url_malformed">Server url must start with http:// or https://</string>
+    <string name="error_app_id_missing">App ID must not be empty</string>
+    <string name="error_master_key_missing">Master key must not be empty</string>
 </resources>

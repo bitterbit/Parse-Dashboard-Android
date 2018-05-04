@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -107,6 +108,12 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 
     @Override
     public void onClickOpen(ParseServerConfig config) {
+        String error = checkForParseConfigError(config);
+        if (error != null){
+            Snackbar.make(findViewById(R.id.stateful_layout), error, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         // Re init parse sdk so we can open a new parse app
         Parse.destroy();
         initParse(config.appId, config.serverUrl, config.masterKey);
@@ -114,6 +121,23 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         Intent i = new Intent(this, SingleAppParseActivity.class);
         i.putExtra(Const.BUNDLE_KEY_PARSE_APP_NAME, config.appName);
         this.startActivityForResult(i, 1);
+    }
+
+    // Validate parse server config. If No error returns null, otherwise returns error message.
+    private String checkForParseConfigError(ParseServerConfig config){
+        if (config.appId.equals("")) {
+            return getString(R.string.error_app_id_missing);
+        }
+        if (config.serverUrl.equals("")) {
+            return getString(R.string.error_server_url_missing);
+        }
+        if (!config.serverUrl.startsWith("http://") && !config.serverUrl.startsWith("https://")){
+            return getString(R.string.error_server_url_malformed);
+        }
+        if (config.masterKey.equals("")) {
+            return getString(R.string.error_master_key_missing);
+        }
+        return null;
     }
 
     @Override
