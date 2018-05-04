@@ -146,9 +146,6 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         return true;
     }
 
-    public void onEditClick(MenuItem item) {
-    }
-
     public void onRemoveClick(MenuItem item) {
         statefulLayout.showLoading();
         try {
