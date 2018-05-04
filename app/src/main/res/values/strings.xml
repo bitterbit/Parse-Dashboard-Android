@@ -20,4 +20,7 @@
     <string name="error_server_url_malformed">Server url must start with http:// or https://</string>
     <string name="error_app_id_missing">App ID must not be empty</string>
     <string name="error_master_key_missing">Master key must not be empty</string>
+
+    <string name="action_edit">edit</string>
+    <string name="action_remove">remove</string>
 </resources>

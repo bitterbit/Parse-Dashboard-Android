@@ -20,6 +20,6 @@
             app:liv_icon="@drawable/ic_parse_24dp"
             app:liv_displayMode="icon"
             app:liv_multiline="true"
-            app:liv_menu="@menu/parse_app_item_menu" />
+            app:liv_menu="@menu/menu_server_item" />
 
 </android.support.v7.widget.CardView>

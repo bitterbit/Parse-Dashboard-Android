@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_edit"
-        android:title="Edit"
+        android:title="@string/action_edit"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_remove"
-        android:title="Remove"
+        android:title="@string/action_remove"
         app:showAsAction="never" />
 </menu>

@@ -29,7 +29,6 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         Bundle extra = getIntent().getExtras();
         if (extra == null){
             extra = savedInstanceState;
