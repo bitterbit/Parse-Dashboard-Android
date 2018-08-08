@@ -1,10 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.galtashma.parsedashboard.screens.SingleObjectParseActivity">
+    tools:context="com.galtashma.parsedashboard.screens.SingleClassParseActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:id="@+id/action_refresh_class"
+        android:title="@string/action_refresh"
+        android:onClick="onRefresh"
         app:showAsAction="never" />
 </menu>

@@ -31,7 +31,7 @@ public class ParseSchema {
     }
 
     private String schemaName;
-    private Map<String, FieldType> fields;
+    private HashMap<String, FieldType> fields;
     private JSONObject classLevelPermissions;
 
     /* Package */ ParseSchema(JSONObject json){
@@ -45,6 +45,9 @@ public class ParseSchema {
     }
 
     public Map<String, FieldType> getFields() {
+        return fields;
+    }
+    public HashMap<String, FieldType> getFieldsHashMap() {
         return fields;
     }
 
@@ -61,8 +64,8 @@ public class ParseSchema {
         }
     }
 
-    private Map<String, FieldType> parseFieldsFromJson(JSONObject json){
-        Map<String, FieldType> fields = new HashMap<>();
+    private HashMap<String, FieldType> parseFieldsFromJson(JSONObject json){
+        HashMap<String, FieldType> fields = new HashMap<>();
         JSONObject object = null;
         try {
             object = json.getJSONObject(KEY_SCHEMA_FIELDS);

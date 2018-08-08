@@ -8,5 +8,6 @@
 /Parse/build
 /captures
 .externalNativeBuild
+.idea/
 ids.xml
 app/fabric.properties 

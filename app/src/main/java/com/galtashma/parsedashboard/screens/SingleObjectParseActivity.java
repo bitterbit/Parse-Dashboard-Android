@@ -7,11 +7,17 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
+import com.crashlytics.android.answers.CustomEvent;
 import com.galtashma.parsedashboard.Const;
+import com.galtashma.parsedashboard.Hash;
 import com.galtashma.parsedashboard.adapters.ParseObjectFieldsAdapter;
 import com.galtashma.parsedashboard.ParseField;
 import com.galtashma.parsedashboard.R;
@@ -23,14 +29,15 @@ import com.parse.ParseQuery;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SingleObjectParseActivity extends AppCompatActivity implements GetCallback<ParseObject>, View.OnLongClickListener {
 
     private String className, objectId;
     private ListView listView;
     private ProgressRelativeLayout statefulLayout;
+
+    private ParseObject parseObject = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +60,16 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         statefulLayout = findViewById(R.id.stateful_layout);
         listView = (ListView) findViewById(R.id.list_view);
         fetch();
+
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentId(Hash.sha1(className+objectId))
+                .putContentName("Object Activity")
+                .putContentType("Screen"));
     }
 
     private void fetch(){
         statefulLayout.showLoading();
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
-        query.whereEqualTo("objectId", objectId);
-        query.getFirstInBackground(this);
+        getQuery().getFirstInBackground(this);
     }
 
     @Override
@@ -75,7 +85,7 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
             showError("Empty Parse Object.");
             return;
         }
-
+        parseObject = object;
         statefulLayout.showContent();
 
         ArrayList<ParseField> fields = new ArrayList<>();
@@ -94,6 +104,12 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         ParseObjectFieldsAdapter adapter = new ParseObjectFieldsAdapter(this, fields);
         adapter.setLongClickListener(this);
         listView.setAdapter(adapter);
+    }
+
+    private ParseQuery<ParseObject> getQuery(){
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
+        query.whereEqualTo("objectId", objectId);
+        return query;
     }
 
     private void showError(String message, Exception e){
@@ -121,7 +137,36 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(listItemView.getSubtitle(), listItemView.getTitle());
         clipboard.setPrimaryClip(clip);
-        Snackbar.make(statefulLayout, getString(R.string.copied_to_clipboard), Snackbar.LENGTH_LONG).show();
+        showMessage(getString(R.string.copied_to_clipboard));
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "copied field to clipboard"));
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_object_view, menu);
+        return true;
+    }
+
+    public void onRemoveClick(MenuItem item) {
+        statefulLayout.showLoading();
+        try {
+            parseObject.delete();
+        } catch (ParseException e) {
+            e.printStackTrace();
+            statefulLayout.showContent();
+            showMessage("Error deleting object ("+e.getMessage()+")");
+            return;
+        }
+
+        statefulLayout.showEmpty(R.drawable.ic_parse_24dp, "Item Deleted", "The item was successfully deleted.");
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "remove object"));
+    }
+
+
+    private void showMessage(String message){
+        Snackbar.make(statefulLayout, message, Snackbar.LENGTH_LONG).show();
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,6 +14,10 @@ import android.widget.ListView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.AnswersEvent;
+import com.crashlytics.android.answers.ContentViewEvent;
+import com.crashlytics.android.answers.CustomEvent;
 import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.ParseServerConfigStorage;
 import com.galtashma.parsedashboard.R;
@@ -23,6 +28,8 @@ import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import io.fabric.sdk.android.Fabric;
 import java.util.List;
+
+import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -59,6 +66,10 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         adapter.setListener(this);
+
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentName("All Apps Activity")
+                .putContentType("Screen"));
     }
 
     private boolean isMainScreenEmpty(){
@@ -90,6 +101,9 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         adapter.add(serverConfig);
         adapter.notifyDataSetChanged();
         toggleMainScreen(isMainScreenEmpty());
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "add new server config"));
+
     }
 
     private ParseServerConfig getConfigFromDialog(MaterialDialog dialog){
@@ -107,6 +121,12 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 
     @Override
     public void onClickOpen(ParseServerConfig config) {
+        String error = checkForParseConfigError(config);
+        if (error != null){
+            Snackbar.make(findViewById(R.id.stateful_layout), error, Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         // Re init parse sdk so we can open a new parse app
         Parse.destroy();
         initParse(config.appId, config.serverUrl, config.masterKey);
@@ -116,9 +136,25 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         this.startActivityForResult(i, 1);
     }
 
+    // Validate parse server config. If No error returns null, otherwise returns error message.
+    private String checkForParseConfigError(ParseServerConfig config){
+        if (config.appId.equals("")) {
+            return getString(R.string.error_app_id_missing);
+        }
+        if (config.serverUrl.equals("")) {
+            return getString(R.string.error_server_url_missing);
+        }
+        if (!config.serverUrl.startsWith("http://") && !config.serverUrl.startsWith("https://")){
+            return getString(R.string.error_server_url_malformed);
+        }
+        if (config.masterKey.equals("")) {
+            return getString(R.string.error_master_key_missing);
+        }
+        return null;
+    }
+
     @Override
     public void onClickEdit(final ParseServerConfig config) {
-
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title("Edit Parse Server")
                 .customView(R.layout.dialog_add_app, true)
@@ -141,6 +177,9 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         ((EditText)v.findViewById(R.id.inputAppId)).setText(config.appId);
         ((EditText)v.findViewById(R.id.inputAppMasterKey)).setText(config.masterKey);
         ((EditText)v.findViewById(R.id.inputServerUrl)).setText(config.serverUrl);
+
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "edit parse server config"));
     }
 
     @Override
@@ -149,6 +188,8 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         adapter.remove(config);
         adapter.notifyDataSetChanged();
         toggleMainScreen(isMainScreenEmpty());
+        Answers.getInstance().logCustom(new CustomEvent("Action")
+                .putCustomAttribute("type", "delete parse server config"));
     }
 
     private void initParse(String appId, String serverUrl, String masterKey){
