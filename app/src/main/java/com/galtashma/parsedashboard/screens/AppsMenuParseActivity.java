@@ -2,6 +2,7 @@ package com.galtashma.parsedashboard.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,7 @@ import com.galtashma.parsedashboard.ParseServerConfigStorage;
 import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.adapters.ParseAppsAdapter;
 import com.galtashma.parsedashboard.Const;
+import com.gtr.stargazer.Stargazer;
 import com.parse.Parse;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
@@ -70,6 +72,19 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         Answers.getInstance().logContentView(new ContentViewEvent()
                 .putContentName("All Apps Activity")
                 .putContentType("Screen"));
+
+        Stargazer.with(this).init("138d14dbfbef4570bf340407aa5acc3d")
+                .setInstallDays(2)
+                .setLaunchTimes(4);
+
+        // Show dialog after 40 seconds
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Stargazer.with(AppsMenuParseActivity.this).showIfMeetsConditions();
+            }
+        }, 1000*40);
     }
 
     private boolean isMainScreenEmpty(){

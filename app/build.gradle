@@ -12,6 +12,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://dl.bintray.com/galtashma/maven' }
 }
 
 
@@ -69,5 +70,9 @@ dependencies {
     }
     compile('com.crashlytics.sdk.android:answers:1.4.1@aar') {
         transitive = true;
+    }
+
+    compile ('com.gtr.stargazer:stargazer-sdk:0.1.10') {
+        exclude group: 'com.parse', module: 'parse-android'
     }
 }
