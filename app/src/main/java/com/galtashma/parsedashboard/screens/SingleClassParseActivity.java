@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
 import com.crashlytics.android.answers.CustomEvent;
@@ -20,12 +24,17 @@ import com.galtashma.parsedashboard.adapters.ParseObjectsAdapter;
 import com.galtashma.parsedashboard.R;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseSchema;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SingleClassParseActivity extends AppCompatActivity implements ScrollInfiniteAdapter.OnClickListener<ParseObject> {
 
     private String className;
     ProgressRelativeLayout statefulLayout;
+    private String[] fieldNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,12 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         if (extra == null || !extra.containsKey(Const.BUNDLE_KEY_CLASS_NAME)){
             finish();
             return;
+        }
+
+        if (extra.containsKey(Const.BUNDLE_KEY_CLASS_FIELDS_NAME)){
+            fieldNames = extra.getStringArray(Const.BUNDLE_KEY_CLASS_FIELDS_NAME);
+        } else {
+            fieldNames = new String[]{"objectId", "createdAt", "updatedAt"};
         }
 
         className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
@@ -92,5 +107,28 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         initList((ListView) findViewById(R.id.list_view));
         Answers.getInstance().logCustom(new CustomEvent("Action")
                 .putCustomAttribute("type", "refresh class activity"));
+    }
+
+    public void onSelectFavFields(MenuItem item) {
+
+        new MaterialDialog.Builder(this)
+                .title(R.string.action_select_fav_fields)
+                .items(fieldNames)
+                .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        /**
+                         * If you use alwaysCallMultiChoiceCallback(), which is discussed below,
+                         * returning false here won't allow the newly selected check box to actually be selected
+                         * (or the newly unselected check box to be unchecked).
+                         * See the limited multi choice dialog example in the sample project for details.
+                         **/
+
+                        Log.d("ParseDashboard", "onSelection " + which + " " + text);
+                        return true;
+                    }
+                })
+                .positiveText(R.string.save)
+                .show();
     }
 }

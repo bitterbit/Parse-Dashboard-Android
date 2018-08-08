@@ -25,4 +25,8 @@
     <string name="action_edit">Edit</string>
     <string name="action_remove">Remove</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_select_fav_fields">Select Fields</string>
+    <string name="discard">discard</string>
+    <string name="save">save</string>
+    <string name="dont_ask_again">Dont ask again</string>
 </resources>
