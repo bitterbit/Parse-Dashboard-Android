@@ -26,6 +26,7 @@ import com.parse.ParseQuery;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SingleClassParseActivity extends AppCompatActivity implements ScrollInfiniteAdapter.OnClickListener<ParseObject> {
@@ -34,8 +35,9 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
     ProgressRelativeLayout statefulLayout;
     private String[] fieldNames;
     private ListPreferenceStore preferenceStore;
+    private ParseObjectsAdapter adapter;
 
-    private static final String PREF_KEY = "KEY_SingleClassParseActivity";
+    private static final String PREF_KEY = "KEY_SingleClassParseActivity_";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,21 +57,29 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
             return;
         }
 
+        className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
+        setTitle(className);
+
         if (extra.containsKey(Const.BUNDLE_KEY_CLASS_FIELDS_NAME)){
             fieldNames = extra.getStringArray(Const.BUNDLE_KEY_CLASS_FIELDS_NAME);
+
+            // Remove objectId field as it is special and is displayed anyway
+            List<String> l = new ArrayList<String>(Arrays.asList(fieldNames));
+            if (l.contains("objectId")){
+                l.remove("objectId");
+            }
+
+            fieldNames = l.toArray(new String[l.size()]);
+
         } else {
-            fieldNames = new String[]{"objectId", "createdAt", "updatedAt"};
+            fieldNames = new String[]{"createdAt", "updatedAt"};
         }
 
-        preferenceStore = new ListPreferenceStore(PREF_KEY);
+        preferenceStore = new ListPreferenceStore(PREF_KEY+className);
         if (preferenceStore.isEmpty()){
-            preferenceStore.add("objectId");
             preferenceStore.add("createdAt");
             preferenceStore.add("updatedAt");
         }
-
-        className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
-        setTitle(className);
 
         statefulLayout = findViewById(R.id.stateful_layout);
         ListView listView = findViewById(R.id.list_view);
@@ -85,7 +95,7 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         statefulLayout.showLoading();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
         LazyList<ParseObject> list = new LazyList<ParseObject>(query);
-        ParseObjectsAdapter adapter  = new ParseObjectsAdapter(this, list);
+        adapter  = new ParseObjectsAdapter(this, list, preferenceStore.getList());
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new ScrollInfiniteListener(adapter));
         adapter.setOnClickListener(this);
@@ -136,9 +146,9 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
                     public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                         preferenceStore.reset();
                         for(CharSequence key : text){
-                            Log.d("ParseDashboard", "onSelection " + key);
                             preferenceStore.add(key.toString());
                         }
+                        adapter.updatePreviewFields(preferenceStore.getList());
                         return true;
                     }
                 })

@@ -7,10 +7,10 @@ import java.util.List;
 
 public class ListPreferenceStore {
     private List<String> list;
-    private String key;
+    private String prefId;
 
-    public ListPreferenceStore(String key){
-        this.key = key;
+    public ListPreferenceStore(String prefId){
+        this.prefId = prefId;
         list = load();
     }
 
@@ -50,14 +50,14 @@ public class ListPreferenceStore {
     }
 
     private void save(){
-        FastSave.getInstance().saveObjectsList(key, list);
+        FastSave.getInstance().saveObjectsList(prefId, list);
     }
 
     private List<String> load(){
-        List<String> l = FastSave.getInstance().getObjectsList(key, String.class);
+        List<String> l = FastSave.getInstance().getObjectsList(prefId, String.class);
         if (l != null) {
             return l;
         }
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 }
