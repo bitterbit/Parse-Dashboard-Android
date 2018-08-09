@@ -13,21 +13,19 @@ A beautiful mobile client for managing your [Parse](http://parseplatform.org/) a
 <img src="https://github.com/bitterbit/Parse-Dashboard-Android/raw/master/imgs/device-2018-03-18-224127.png" width=250></img>
 <img src="https://github.com/bitterbit/Parse-Dashboard-Android/raw/master/imgs/device-2018-03-18-223754.png" width=250></img>
 
-
-
-
 ## Features
 * Multiple Server Support
+* Select fields to be displayed while scrolling in class overview activity
 * Querying
   * Query all schemas
   * Query all objects in class
   * Query all fields in object instance
+* Delete objects
 
 ## TODO
 * Edit / Create object instances
 * Filter objects based on input search
 * Create / Delete schemas
-* Mark favorite fields for each class that will be shown while scrolling
 * Run cloud code
 * View server logs
 * Show app statistics like in web dashboard (installations and users count)
