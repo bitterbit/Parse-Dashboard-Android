@@ -7,10 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
@@ -20,11 +18,11 @@ import com.galtashma.lazyparse.ScrollInfiniteAdapter;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
 import com.galtashma.parsedashboard.Const;
 import com.galtashma.parsedashboard.Hash;
+import com.galtashma.parsedashboard.ListPreferenceStore;
 import com.galtashma.parsedashboard.adapters.ParseObjectsAdapter;
 import com.galtashma.parsedashboard.R;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseSchema;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
 import java.util.ArrayList;
@@ -35,6 +33,9 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
     private String className;
     ProgressRelativeLayout statefulLayout;
     private String[] fieldNames;
+    private ListPreferenceStore preferenceStore;
+
+    private static final String PREF_KEY = "KEY_SingleClassParseActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,13 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
             fieldNames = extra.getStringArray(Const.BUNDLE_KEY_CLASS_FIELDS_NAME);
         } else {
             fieldNames = new String[]{"objectId", "createdAt", "updatedAt"};
+        }
+
+        preferenceStore = new ListPreferenceStore(PREF_KEY);
+        if (preferenceStore.isEmpty()){
+            preferenceStore.add("objectId");
+            preferenceStore.add("createdAt");
+            preferenceStore.add("updatedAt");
         }
 
         className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
@@ -110,21 +118,27 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
     }
 
     public void onSelectFavFields(MenuItem item) {
+        List<Integer> selectedIndices = new ArrayList<>();
+
+        for (int i=0; i<fieldNames.length; i++){
+            if (preferenceStore.exists(fieldNames[i])){
+                selectedIndices.add(i);
+            }
+        }
+
+        Log.d("ParseDashboard", "selected indexes" + selectedIndices);
 
         new MaterialDialog.Builder(this)
                 .title(R.string.action_select_fav_fields)
                 .items(fieldNames)
-                .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                .itemsCallbackMultiChoice(selectedIndices.toArray(new Integer[selectedIndices.size()]), new MaterialDialog.ListCallbackMultiChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                        /**
-                         * If you use alwaysCallMultiChoiceCallback(), which is discussed below,
-                         * returning false here won't allow the newly selected check box to actually be selected
-                         * (or the newly unselected check box to be unchecked).
-                         * See the limited multi choice dialog example in the sample project for details.
-                         **/
-
-                        Log.d("ParseDashboard", "onSelection " + which + " " + text);
+                        preferenceStore.reset();
+                        for(CharSequence key : text){
+                            Log.d("ParseDashboard", "onSelection " + key);
+                            preferenceStore.add(key.toString());
+                        }
                         return true;
                     }
                 })
