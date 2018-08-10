@@ -14,7 +14,9 @@ import com.galtashma.parsedashboard.R;
 import com.lucasurbas.listitemview.ListItemView;
 import com.parse.ParseObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,8 +25,21 @@ import java.util.Map;
 
 public class ParseObjectsAdapter extends ScrollInfiniteAdapter<ParseObject> {
 
+    private List<String> previewFieldNames;
+
     public ParseObjectsAdapter(Context context, LazyList<ParseObject> lazyValues) {
         super(context, lazyValues, R.layout.list_item, 15);
+        previewFieldNames = Arrays.asList("createdAt", "updatedAt");
+    }
+
+    public ParseObjectsAdapter(Context context, LazyList<ParseObject> lazyValues, List<String> previewFields) {
+        super(context, lazyValues, R.layout.list_item, 15);
+        this.previewFieldNames = previewFields;
+    }
+
+    public void updatePreviewFields(List<String> previewFields){
+        this.previewFieldNames = previewFields;
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -34,12 +49,29 @@ public class ParseObjectsAdapter extends ScrollInfiniteAdapter<ParseObject> {
         item.setMultiline(true);
 
         Map<String, String> fields = new HashMap<>();
-        fields.put("createdAt", t.getCreatedAt().toString());
-        fields.put("updatedAt", t.getUpdatedAt().toString());
-
+        for (String fieldName : previewFieldNames){
+            String value = formatParseField(t, fieldName);
+            if (value != null){
+                fields.put(fieldName, formatParseField(t, fieldName));
+            }
+        }
         item.setSubtitle(mapToString(fields));
-
         return view;
+    }
+
+    private String formatParseField(ParseObject t, String key){
+        if (key.equals("createdAt")) {
+            return t.getCreatedAt().toString();
+        }
+        if (key.equals("updatedAt")){
+            return t.getCreatedAt().toString();
+        }
+
+        if (t.has(key)){
+            return t.get(key).toString();
+        }
+
+        return null;
     }
 
     @Override
@@ -50,6 +82,10 @@ public class ParseObjectsAdapter extends ScrollInfiniteAdapter<ParseObject> {
     }
 
     private String mapToString(Map<String, String> map){
+        if (map.size() <= 0){
+            return "";
+        }
+        
         StringBuilder sb = new StringBuilder();
         for(String k : map.keySet()){
             sb.append(k);

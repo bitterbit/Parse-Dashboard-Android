@@ -12,6 +12,8 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://dl.bintray.com/galtashma/maven' }
+    maven { url 'https://jitpack.io' }
 }
 
 
@@ -21,8 +23,8 @@ android {
         applicationId "com.galtashma.parsedashboard"
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -70,4 +72,10 @@ dependencies {
     compile('com.crashlytics.sdk.android:answers:1.4.1@aar') {
         transitive = true;
     }
+
+    compile ('com.gtr.stargazer:stargazer-sdk:0.1.10') {
+        exclude group: 'com.parse', module: 'parse-android'
+    }
+
+    implementation 'com.github.yehiahd:FastSave-Android:1.0.4'
 }

@@ -21,7 +21,11 @@ import com.parse.ParseQuery;
 import com.parse.ParseSchema;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import bolts.Continuation;
 import bolts.Task;
@@ -33,6 +37,8 @@ public class SingleAppParseActivity extends AppCompatActivity {
 
     private ParseClassesAdapter adapter;
     private ProgressRelativeLayout statefulLayout;
+
+    private Map<String, ParseSchema> schemas = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,23 +88,28 @@ public class SingleAppParseActivity extends AppCompatActivity {
                 }
 
                 Log.i(Const.TAG, "found schemas " + task.getResult());
-                updateListOnUIThread(task.getResult());
+                List <ParseSchema> s = task.getResult();
+                updateListOnUIThread(s);
+                for(ParseSchema ps : s){
+                    schemas.put(ps.getName(), ps);
+                }
+
                 return null;
             }
         });
     }
 
-    private void updateListOnUIThread(final List<ParseSchema> schemas){
+    private void updateListOnUIThread(final List<ParseSchema> schemasList){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (schemas.size() == 0){
+                if (schemasList.size() == 0){
                     showEmptyState();
                     return;
                 }
                 statefulLayout.showContent();
                 adapter.clear();
-                adapter.addAll(schemas);
+                adapter.addAll(schemasList);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -124,8 +135,20 @@ public class SingleAppParseActivity extends AppCompatActivity {
     }
 
     private void showTable(String tableName){
-        Intent i = new Intent(this, SingleClassParseActivity.class);
-        i.putExtra(Const.BUNDLE_KEY_CLASS_NAME, tableName);
-        this.startActivityForResult(i, 1);
+        Intent intent = new Intent(this, SingleClassParseActivity.class);
+        intent.putExtra(Const.BUNDLE_KEY_CLASS_NAME, tableName);
+        if (schemas.containsKey(tableName)){
+            int size = schemas.get(tableName).getFields().size();
+            String[] fieldsArr = new String[size];
+
+            Iterator<String> it = schemas.get(tableName).getFields().keySet().iterator();
+            for (int i=0; i<size; i++){
+                if (it.hasNext()) {
+                    fieldsArr[i] = it.next();
+                }
+            }
+            intent.putExtra(Const.BUNDLE_KEY_CLASS_FIELDS_NAME, fieldsArr);
+        }
+        this.startActivityForResult(intent, 1);
     }
 }
