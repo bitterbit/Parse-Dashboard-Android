@@ -2,15 +2,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.galtashma.parsedashboard.screens.SingleClassParseActivity">
-    <item
-        android:id="@+id/action_refresh_class"
-        android:title="@string/action_refresh"
-        android:onClick="onRefresh"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_select_class_fav_fields"
         android:title="@string/action_select_fav_fields"
         android:onClick="onSelectFavFields"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_select_class_order_fields"
+        android:title="@string/sort"
+        android:onClick="onSelectOrderFields"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_refresh_class"
+        android:title="@string/action_refresh"
+        android:onClick="onRefresh"
+        app:showAsAction="never" />
+
 </menu>

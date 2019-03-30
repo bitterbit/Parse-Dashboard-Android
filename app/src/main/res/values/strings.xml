@@ -29,4 +29,11 @@
     <string name="discard">discard</string>
     <string name="save">save</string>
     <string name="dont_ask_again">Dont ask again</string>
+
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="sort">Sort</string>
+
 </resources>
