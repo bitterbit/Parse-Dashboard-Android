@@ -84,6 +84,7 @@ public class SingleAppParseActivity extends AppCompatActivity {
             public Void then(Task<List<ParseSchema>> task) throws Exception {
                 if (task.isFaulted() || task.isCancelled()){
                     showErrorOnUIThread(getString(R.string.schemas_screen_error_title), task.getError());
+                    Log.e("ParseDashboard","Error fetching from "  + " parse server.", task.getError());
                     return null;
                 }
 

@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -208,6 +209,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
     }
 
     private void initParse(String appId, String serverUrl, String masterKey){
+        Log.i("ParseDashboard", "Starting client for " + serverUrl + " appId: " + appId);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
