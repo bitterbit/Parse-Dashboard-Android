@@ -30,6 +30,7 @@ public class ParseSchema {
         });
     }
 
+    private int count;
     private String schemaName;
     private HashMap<String, FieldType> fields;
     private JSONObject classLevelPermissions;
@@ -38,6 +39,21 @@ public class ParseSchema {
         schemaName = parseSchemaNameFromJson(json);
         fields = parseFieldsFromJson(json);
         classLevelPermissions = parseCLPFromJson(json);
+        count = getCountFromServer();
+    }
+
+    public int getCount(){
+        return  count;
+    }
+
+    private int getCountFromServer() {
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(getName());
+        try {
+            return query.count();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public String getName(){

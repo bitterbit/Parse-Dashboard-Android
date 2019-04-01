@@ -40,7 +40,8 @@ public class ParseClassesAdapter extends ArrayAdapter<ParseSchema> {
         }
 
         ListItemView item = (ListItemView) convertView;
-        item.setTitle(schema.getName());
+
+        item.setTitle(schema.getName() + " " + schema.getCount());
         item.setSubtitle(getSchemaString(schema));
 
         item.setOnClickListener(new View.OnClickListener() {
