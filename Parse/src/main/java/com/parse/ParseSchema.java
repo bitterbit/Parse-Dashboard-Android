@@ -20,6 +20,7 @@ public class ParseSchema {
     private static final String KEY_SCHEMA_FIELDS = "fields";
     private static final String KEY_SCHEMA_CLP = "classLevelPermissions";
     private static final String KEY_SCHEMA_FIELD_TYPE = "type";
+    private CountCallback countCallback;
 
     public static Task<List<ParseSchema>> getParseSchemasAsync(){
         return ParseUser.getCurrentSessionTokenAsync().onSuccessTask(new Continuation<String, Task<List<ParseSchema>>>() {
@@ -39,21 +40,31 @@ public class ParseSchema {
         schemaName = parseSchemaNameFromJson(json);
         fields = parseFieldsFromJson(json);
         classLevelPermissions = parseCLPFromJson(json);
-        count = getCountFromServer();
+        count = -1;
+        getCountAsync();
     }
 
-    public int getCount(){
-        return  count;
+    // Returns count if fetched and -1 if not
+    public int getCountIfFetched(){
+        return count;
     }
 
-    private int getCountFromServer() {
+    public void setOnCountListener(CountCallback callback){
+        this.countCallback = callback;
+    }
+
+    private void getCountAsync(){
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(getName());
-        try {
-            return query.count();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return 0;
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                ParseSchema.this.count = count;
+                Log.d("ParseServer", "ParseSDK OnCountFinish");
+                if (countCallback != null) {
+                    countCallback.done(count, e);
+                }
+            }
+        });
     }
 
     public String getName(){

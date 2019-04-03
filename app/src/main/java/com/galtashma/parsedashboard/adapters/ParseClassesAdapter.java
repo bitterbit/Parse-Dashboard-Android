@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 
 import com.galtashma.parsedashboard.R;
 import com.lucasurbas.listitemview.ListItemView;
+import com.parse.CountCallback;
+import com.parse.ParseException;
 import com.parse.ParseSchema;
 
 import java.util.ArrayList;
@@ -41,8 +44,8 @@ public class ParseClassesAdapter extends ArrayAdapter<ParseSchema> {
 
         ListItemView item = (ListItemView) convertView;
 
-        item.setTitle(schema.getName() + " " + schema.getCount());
-        item.setSubtitle(getSchemaString(schema));
+        item.setTitle(schema.getName());
+        item.setSubtitle(getItemCountString(schema) + getSchemaString(schema));
 
         item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +57,22 @@ public class ParseClassesAdapter extends ArrayAdapter<ParseSchema> {
         });
 
         return convertView;
+    }
 
+    private String getItemCountString(ParseSchema schema){
+        int itemCount = schema.getCountIfFetched();
+        if (itemCount != -1){
+            return  "("+itemCount+")\t";
+        }
+
+        schema.setOnCountListener(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                notifyDataSetChanged();
+            }
+        });
+
+        return "";
     }
 
     private String getSchemaString(ParseSchema schema){
