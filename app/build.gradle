@@ -18,12 +18,12 @@ repositories {
 
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.galtashma.parsedashboard"
         minSdkVersion 17
-        targetSdkVersion 26
-        versionCode 4
+        targetSdkVersion 28
+        versionCode 5
         versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
