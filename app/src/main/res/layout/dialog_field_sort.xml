@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    >
+
+    <Spinner
+        android:id="@+id/sort_dialog_selected_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </Spinner>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/sort_dialog_order_asc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ascending"
+            />
+
+        <RadioButton
+            android:id="@+id/sort_dialog_order_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/descending"
+            />
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/sort_dialog_button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/cancel"
+            />
+
+        <Button
+            style="?android:attr/buttonBarButtonStyle"
+            android:id="@+id/sort_dialog_button_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:text="@string/confirm"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
