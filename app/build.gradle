@@ -61,7 +61,7 @@ dependencies {
     implementation('com.afollestad.material-dialogs:core:0.9.6.0')
     implementation('com.afollestad.material-dialogs:commons:0.9.6.0')
 
-    compile('com.afollestad:ason:+') {
+    compile('com.github.afollestad:ason:1.4.14') {
         exclude group: 'org.json', module: 'json'
     }
 
