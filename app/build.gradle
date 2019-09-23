@@ -18,12 +18,12 @@ repositories {
 
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.galtashma.parsedashboard"
         minSdkVersion 17
-        targetSdkVersion 26
-        versionCode 4
+        targetSdkVersion 28
+        versionCode 5
         versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -61,7 +61,7 @@ dependencies {
     implementation('com.afollestad.material-dialogs:core:0.9.6.0')
     implementation('com.afollestad.material-dialogs:commons:0.9.6.0')
 
-    compile('com.afollestad:ason:+') {
+    compile('com.github.afollestad:ason:1.4.14') {
         exclude group: 'org.json', module: 'json'
     }
 
