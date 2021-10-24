@@ -8,7 +8,7 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -49,33 +49,33 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     // for logging API calls to LogCat
 
-    compile project(path: ':Parse')
+    implementation project(path: ':Parse')
 
-    compile('com.github.bitterbit:LazyParse:0e6785db99') {
+    implementation('com.github.bitterbit:LazyParse:0e6785db99') {
         exclude group: 'com.parse'
         exclude group: 'com.android.support'
     }
 
-    compile 'com.lucasurbas:listitemview:1.1.0'
+    implementation 'com.lucasurbas:listitemview:1.1.0'
 
     implementation('com.afollestad.material-dialogs:core:0.9.6.0')
     implementation('com.afollestad.material-dialogs:commons:0.9.6.0')
 
-    compile('com.github.afollestad:ason:1.4.14') {
+    implementation('com.github.afollestad:ason:1.4.14') {
         exclude group: 'org.json', module: 'json'
     }
 
-    compile 'com.github.vlonjatg:progress-activity:2.0.5'
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
-        transitive = true;
-    }
-    compile('com.crashlytics.sdk.android:answers:1.4.1@aar') {
-        transitive = true;
-    }
+    implementation 'com.github.vlonjatg:progress-activity:2.0.5'
+//    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+//        transitive = true;
+//    }
+//    compile('com.crashlytics.sdk.android:answers:1.4.1@aar') {
+//        transitive = true;
+//    }
 
-    compile ('com.gtr.stargazer:stargazer-sdk:0.1.10') {
-        exclude group: 'com.parse', module: 'parse-android'
-    }
+//    compile ('com.gtr.stargazer:stargazer-sdk:0.1.10') {
+//        exclude group: 'com.parse', module: 'parse-android'
+//    }
 
-    implementation 'com.github.yehiahd:FastSave-Android:1.0.4'
+    implementation 'com.github.yehiahd:FastSave-Android:1.0.6'
 }

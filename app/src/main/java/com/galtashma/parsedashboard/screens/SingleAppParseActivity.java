@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.afollestad.ason.Ason;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ContentViewEvent;
 import com.galtashma.parsedashboard.Const;
 import com.galtashma.parsedashboard.Hash;
 import com.galtashma.parsedashboard.ParseServerConfig;
@@ -71,10 +69,10 @@ public class SingleAppParseActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         fetchSchemasAsync();
 
-        Answers.getInstance().logContentView(new ContentViewEvent()
-                .putContentId(Hash.sha1(appName))
-                .putContentName("App Activity")
-                .putContentType("Screen"));
+//        Answers.getInstance().logContentView(new ContentViewEvent()
+//                .putContentId(Hash.sha1(appName))
+//                .putContentName("App Activity")
+//                .putContentType("Screen"));
     }
 
     private void fetchSchemasAsync(){

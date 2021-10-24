@@ -15,21 +15,14 @@ import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.AnswersEvent;
-import com.crashlytics.android.answers.ContentViewEvent;
-import com.crashlytics.android.answers.CustomEvent;
 import com.galtashma.parsedashboard.ParseServerConfig;
 import com.galtashma.parsedashboard.ParseServerConfigStorage;
 import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.adapters.ParseAppsAdapter;
 import com.galtashma.parsedashboard.Const;
-import com.gtr.stargazer.Stargazer;
 import com.parse.Parse;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
-import io.fabric.sdk.android.Fabric;
 import java.util.List;
 
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -48,7 +41,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_apps_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,22 +63,22 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         listView.setAdapter(adapter);
         adapter.setListener(this);
 
-        Answers.getInstance().logContentView(new ContentViewEvent()
-                .putContentName("All Apps Activity")
-                .putContentType("Screen"));
-
-        Stargazer.with(this).init("138d14dbfbef4570bf340407aa5acc3d")
-                .setInstallDays(2)
-                .setLaunchTimes(4);
+//        Answers.getInstance().logContentView(new ContentViewEvent()
+//                .putContentName("All Apps Activity")
+//                .putContentType("Screen"));
+//
+//        Stargazer.with(this).init("138d14dbfbef4570bf340407aa5acc3d")
+//                .setInstallDays(2)
+//                .setLaunchTimes(4);
 
         // Show dialog after 40 seconds
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Stargazer.with(AppsMenuParseActivity.this).showIfMeetsConditions();
-            }
-        }, 1000*40);
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Stargazer.with(AppsMenuParseActivity.this).showIfMeetsConditions();
+//            }
+//        }, 1000*40);
     }
 
     private boolean isMainScreenEmpty(){
@@ -117,8 +110,8 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         adapter.add(serverConfig);
         adapter.notifyDataSetChanged();
         toggleMainScreen(isMainScreenEmpty());
-        Answers.getInstance().logCustom(new CustomEvent("Action")
-                .putCustomAttribute("type", "add new server config"));
+//        Answers.getInstance().logCustom(new CustomEvent("Action")
+//                .putCustomAttribute("type", "add new server config"));
 
     }
 
@@ -194,8 +187,8 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         ((EditText)v.findViewById(R.id.inputAppMasterKey)).setText(config.masterKey);
         ((EditText)v.findViewById(R.id.inputServerUrl)).setText(config.serverUrl);
 
-        Answers.getInstance().logCustom(new CustomEvent("Action")
-                .putCustomAttribute("type", "edit parse server config"));
+//        Answers.getInstance().logCustom(new CustomEvent("Action")
+//                .putCustomAttribute("type", "edit parse server config"));
     }
 
     @Override
@@ -204,8 +197,8 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         adapter.remove(config);
         adapter.notifyDataSetChanged();
         toggleMainScreen(isMainScreenEmpty());
-        Answers.getInstance().logCustom(new CustomEvent("Action")
-                .putCustomAttribute("type", "delete parse server config"));
+//        Answers.getInstance().logCustom(new CustomEvent("Action")
+//                .putCustomAttribute("type", "delete parse server config"));
     }
 
     private void initParse(String appId, String serverUrl, String masterKey){

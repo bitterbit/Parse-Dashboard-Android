@@ -15,9 +15,6 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ContentViewEvent;
-import com.crashlytics.android.answers.CustomEvent;
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.ScrollInfiniteAdapter;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
@@ -93,10 +90,10 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         sortPreferenceStore = new SortPreferenceStore(PREF_SORT + className);
         statefulLayout = findViewById(R.id.stateful_layout);
 
-        Answers.getInstance().logContentView(new ContentViewEvent()
-                .putContentId(Hash.sha1(className))
-                .putContentName("Class Activity")
-                .putContentType("Screen"));
+//        Answers.getInstance().logContentView(new ContentViewEvent()
+//                .putContentId(Hash.sha1(className))
+//                .putContentName("Class Activity")
+//                .putContentType("Screen"));
 
         initList();
     }
@@ -147,8 +144,8 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
 
     public void onRefresh(MenuItem item) {
         refresh();
-        Answers.getInstance().logCustom(new CustomEvent("Action")
-                .putCustomAttribute("type", "refresh class activity"));
+//        Answers.getInstance().logCustom(new CustomEvent("Action")
+//                .putCustomAttribute("type", "refresh class activity"));
     }
 
     public void onSelectFavFields(MenuItem item) {
