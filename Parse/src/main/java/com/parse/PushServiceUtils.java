@@ -11,7 +11,7 @@ package com.parse;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import bolts.Task;
 

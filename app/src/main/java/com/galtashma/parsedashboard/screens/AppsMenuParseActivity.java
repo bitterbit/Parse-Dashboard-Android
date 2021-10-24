@@ -3,15 +3,13 @@ package com.galtashma.parsedashboard.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -20,6 +18,8 @@ import com.galtashma.parsedashboard.ParseServerConfigStorage;
 import com.galtashma.parsedashboard.R;
 import com.galtashma.parsedashboard.adapters.ParseAppsAdapter;
 import com.galtashma.parsedashboard.Const;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.Parse;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
 
