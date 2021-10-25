@@ -5,13 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 
 import com.galtashma.parsedashboard.R;
 import com.lucasurbas.listitemview.ListItemView;
-import com.parse.CountCallback;
-import com.parse.ParseException;
 import com.parse.ParseSchema;
 
 import java.util.ArrayList;
@@ -21,7 +18,7 @@ import java.util.List;
 
 public class ParseClassesAdapter extends ArrayAdapter<ParseSchema> {
 
-    public interface OnClickListener{
+    public interface OnClickListener {
         void onSchemaClicked(ParseSchema schema);
     }
 
@@ -38,7 +35,7 @@ public class ParseClassesAdapter extends ArrayAdapter<ParseSchema> {
     @NonNull
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         final ParseSchema schema = getItem(position);
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.list_item, parent, false);
         }
 
@@ -47,40 +44,31 @@ public class ParseClassesAdapter extends ArrayAdapter<ParseSchema> {
         item.setTitle(schema.getName());
         item.setSubtitle(getItemCountString(schema) + getSchemaString(schema));
 
-        item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(listener != null){
-                    listener.onSchemaClicked(schema);
-                }
+        item.setOnClickListener(view -> {
+            if (listener != null){
+                listener.onSchemaClicked(schema);
             }
         });
 
         return convertView;
     }
 
-    private String getItemCountString(ParseSchema schema){
+    private String getItemCountString(ParseSchema schema) {
         int itemCount = schema.getCountIfFetched();
-        if (itemCount != -1){
-            return  "("+itemCount+")\t";
+        if (itemCount != -1) {
+            return "("+itemCount+")\t";
         }
 
-        schema.setOnCountListener(new CountCallback() {
-            @Override
-            public void done(int count, ParseException e) {
-                notifyDataSetChanged();
-            }
-        });
+        schema.setOnCountListener((count, exception) -> notifyDataSetChanged());
 
         return "";
     }
 
     private String getSchemaString(ParseSchema schema){
-        List<String> list = new ArrayList<String>(schema.getFields().keySet());
+        List<String> list = new ArrayList<>(schema.getFields().keySet());
         Collections.sort(list);
         return list.toString().replaceAll("\\[|\\]","").replaceAll(","," ");
     }
-
 
     public void setListener(OnClickListener listener) {
         this.listener = listener;

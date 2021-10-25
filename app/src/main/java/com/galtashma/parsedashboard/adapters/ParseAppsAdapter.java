@@ -2,7 +2,6 @@ package com.galtashma.parsedashboard.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -40,26 +39,18 @@ public class ParseAppsAdapter extends ArrayAdapter<ParseServerConfig> {
             convertView = LayoutInflater.from(this.getContext()).inflate(R.layout.list_item_card, parent, false);
         }
 
-        ListItemView item = (ListItemView) convertView.findViewById(R.id.parse_server_list_item);
+        ListItemView item = convertView.findViewById(R.id.parse_server_list_item);
         item.setTitle(server.appName);
         item.setSubtitle(server.serverUrl+"\n"+server.appId);
 
-        item.setOnMenuItemClickListener(new ListItemView.OnMenuItemClickListener() {
-            @Override
-            public void onActionMenuItemSelected(MenuItem item) {
-                if (item.getItemId() == R.id.action_edit){
-                    notifyEdit(server);
-                } else if(item.getItemId() == R.id.action_remove) {
-                    notifyDelete(server);
-                }
+        item.setOnMenuItemClickListener(clickedItem -> {
+            if (clickedItem.getItemId() == R.id.action_edit) {
+                notifyEdit(server);
+            } else if (clickedItem.getItemId() == R.id.action_remove) {
+                notifyDelete(server);
             }
         });
-        item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                notifyClick(server);
-            }
-        });
+        item.setOnClickListener(view -> notifyClick(server));
 
         return convertView;
     }
@@ -85,5 +76,4 @@ public class ParseAppsAdapter extends ArrayAdapter<ParseServerConfig> {
     public void setListener(ParseAppAdapterListener listener) {
         this.listener = listener;
     }
-
 }

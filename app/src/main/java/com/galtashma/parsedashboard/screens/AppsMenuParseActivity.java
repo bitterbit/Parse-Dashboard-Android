@@ -26,11 +26,8 @@ import com.vorlonsoft.android.rate.AppRate;
 
 import java.util.List;
 
-import javax.xml.transform.TransformerFactoryConfigurationError;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-
 
 
 public class AppsMenuParseActivity extends AppCompatActivity implements MaterialDialog.SingleButtonCallback, ParseAppsAdapter.ParseAppAdapterListener {
@@ -45,16 +42,11 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         // TODO Replace old code with Firebase Crashlytics
 //        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_apps_menu);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialog();
-            }
-        });
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> showDialog());
 
         storage = new ParseServerConfigStorage(getApplicationContext());
         toggleMainScreen(isMainScreenEmpty());
@@ -79,28 +71,23 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 
         // Show dialog after 40 seconds
         final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AppRate.showRateDialogIfMeetsConditions(AppsMenuParseActivity.this);
-            }
-        }, 1000*40);
+        handler.postDelayed(() -> AppRate.showRateDialogIfMeetsConditions(AppsMenuParseActivity.this), 1000*40);
     }
 
-    private boolean isMainScreenEmpty(){
+    private boolean isMainScreenEmpty() {
         return storage.getServers().isEmpty();
     }
 
-    private void toggleMainScreen(boolean isEmpty){
-        ProgressRelativeLayout layout = (ProgressRelativeLayout) findViewById(R.id.stateful_layout);
-        if(isEmpty){
+    private void toggleMainScreen(boolean isEmpty) {
+        ProgressRelativeLayout layout = findViewById(R.id.stateful_layout);
+        if (isEmpty) {
             layout.showEmpty(R.drawable.ic_parse_24dp, getString(R.string.empty_state_apps_screen_short), getString(R.string.empty_state_apps_screen_long));
         } else {
             layout.showContent();
         }
     }
 
-    private void showDialog(){
+    private void showDialog() {
         new MaterialDialog.Builder(this)
                 .title("Add Parse Server")
                 .customView(R.layout.dialog_add_app, true)
@@ -119,10 +106,9 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         // TODO Replace old code with Firebase Analytics
 //        Answers.getInstance().logCustom(new CustomEvent("Action")
 //                .putCustomAttribute("type", "add new server config"));
-
     }
 
-    private ParseServerConfig getConfigFromDialog(MaterialDialog dialog){
+    private ParseServerConfig getConfigFromDialog(MaterialDialog dialog) {
         View v = dialog.getCustomView();
         EditText appName = v.findViewById(R.id.inputAppName);
         EditText appId = v.findViewById(R.id.inputAppId);
@@ -138,7 +124,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
     @Override
     public void onClickOpen(ParseServerConfig config) {
         String error = checkForParseConfigError(config);
-        if (error != null){
+        if (error != null) {
             Snackbar.make(findViewById(R.id.stateful_layout), error, Snackbar.LENGTH_LONG).show();
             return;
         }
@@ -153,7 +139,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
     }
 
     // Validate parse server config. If No error returns null, otherwise returns error message.
-    private String checkForParseConfigError(ParseServerConfig config){
+    private String checkForParseConfigError(ParseServerConfig config) {
         if (config.appId.equals("")) {
             return getString(R.string.error_app_id_missing);
         }
@@ -175,16 +161,13 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
                 .title("Edit Parse Server")
                 .customView(R.layout.dialog_add_app, true)
                 .positiveText("OK")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        adapter.remove(config);
-                        storage.deleteServer(config.appId);
-                        ParseServerConfig newConfig = getConfigFromDialog(dialog);
-                        adapter.add(newConfig);
-                        storage.saveServer(newConfig);
-                        adapter.notifyDataSetChanged();
-                    }
+                .onPositive((thisDialog, which) -> {
+                    adapter.remove(config);
+                    storage.deleteServer(config.appId);
+                    ParseServerConfig newConfig = getConfigFromDialog(thisDialog);
+                    adapter.add(newConfig);
+                    storage.saveServer(newConfig);
+                    adapter.notifyDataSetChanged();
                 })
                 .show();
 
@@ -210,7 +193,7 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 //                .putCustomAttribute("type", "delete parse server config"));
     }
 
-    private void initParse(String appId, String serverUrl, String masterKey){
+    private void initParse(String appId, String serverUrl, String masterKey) {
         Log.i("ParseDashboard", "Starting client for " + serverUrl + " appId: " + appId);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();

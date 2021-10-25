@@ -9,7 +9,7 @@ public class ParseField {
     public String value;
     public String key;
 
-    public ParseField(String key, String value){
+    public ParseField(String key, String value) {
         this.key = key;
         this.value = value;
     }

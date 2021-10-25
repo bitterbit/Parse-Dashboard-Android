@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.galtashma.parsedashboard.Const;
-import com.galtashma.parsedashboard.Hash;
 import com.galtashma.parsedashboard.adapters.ParseObjectFieldsAdapter;
 import com.galtashma.parsedashboard.ParseField;
 import com.galtashma.parsedashboard.R;
@@ -35,18 +34,17 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
 
     private ParseObject parseObject = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_object);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extra = getIntent().getExtras();
-        if (extra == null){
+        if (extra == null) {
             extra = savedInstanceState;
         }
 
@@ -55,7 +53,7 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         setTitle(String.format("%s - %s", className, objectId));
 
         statefulLayout = findViewById(R.id.stateful_layout);
-        listView = (ListView) findViewById(R.id.list_view);
+        listView = findViewById(R.id.list_view);
         fetch();
 
         // TODO Replace old code with Firebase Analytics
@@ -65,20 +63,20 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
 //                .putContentType("Screen"));
     }
 
-    private void fetch(){
+    private void fetch() {
         statefulLayout.showLoading();
         getQuery().getFirstInBackground(this);
     }
 
     @Override
     public void done(ParseObject object, ParseException e) {
-        if (e != null){
+        if (e != null) {
             Log.e(Const.TAG, "Error while fetching object", e);
             showError("Error fetching Parse Object.", e);
             return;
         }
 
-        if (object == null){
+        if (object == null) {
             Log.e(Const.TAG, "Error while fetching object. object is null");
             showError("Empty Parse Object.");
             return;
@@ -90,9 +88,9 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         fields.add(new ParseField("objectId", object.getObjectId()));
         fields.add(new ParseField("createdAt", object.getCreatedAt().toString()));
         fields.add(new ParseField("updatedAt", object.getUpdatedAt().toString()));
-        for (String key : object.keySet()){
+        for (String key : object.keySet()) {
             Object value = object.get(key);
-            if (value == null){
+            if (value == null) {
                 value = "<empty>";
             }
 
@@ -104,28 +102,23 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         listView.setAdapter(adapter);
     }
 
-    private ParseQuery<ParseObject> getQuery(){
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
+    private ParseQuery<ParseObject> getQuery() {
+        ParseQuery<ParseObject> query = new ParseQuery<>(className);
         query.whereEqualTo("objectId", objectId);
         return query;
     }
 
-    private void showError(String message, Exception e){
+    private void showError(String message, Exception e) {
         showError(message + "\n" + e.getMessage());
     }
 
-    private void showError(String message){
-        statefulLayout.showError(R.drawable.ic_parse_24dp, "Error", message, "Retry", new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fetch();
-            }
-        });
+    private void showError(String message) {
+        statefulLayout.showError(R.drawable.ic_parse_24dp, "Error", message, "Retry", view -> fetch());
     }
 
-    private void setTitle(String text){
+    private void setTitle(String text) {
         this.getSupportActionBar().setTitle("");
-        ((TextView)findViewById(R.id.big_title_text)).setText(text);
+        ((TextView) findViewById(R.id.big_title_text)).setText(text);
     }
 
     @Override
@@ -155,7 +148,7 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         } catch (ParseException e) {
             e.printStackTrace();
             statefulLayout.showContent();
-            showMessage("Error deleting object ("+e.getMessage()+")");
+            showMessage("Error deleting object (" + e.getMessage() + ")");
             return;
         }
 
@@ -165,8 +158,7 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
 //                .putCustomAttribute("type", "remove object"));
     }
 
-
-    private void showMessage(String message){
+    private void showMessage(String message) {
         Snackbar.make(statefulLayout, message, Snackbar.LENGTH_LONG).show();
     }
 }
