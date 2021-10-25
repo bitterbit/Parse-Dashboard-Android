@@ -90,6 +90,7 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         sortPreferenceStore = new SortPreferenceStore(PREF_SORT + className);
         statefulLayout = findViewById(R.id.stateful_layout);
 
+        // TODO Replace old code with Firebase Analytics
 //        Answers.getInstance().logContentView(new ContentViewEvent()
 //                .putContentId(Hash.sha1(className))
 //                .putContentName("Class Activity")
@@ -144,6 +145,7 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
 
     public void onRefresh(MenuItem item) {
         refresh();
+        // TODO Replace old code with Firebase Analytics
 //        Answers.getInstance().logCustom(new CustomEvent("Action")
 //                .putCustomAttribute("type", "refresh class activity"));
     }

@@ -69,6 +69,7 @@ public class SingleAppParseActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         fetchSchemasAsync();
 
+        // TODO Replace old code with Firebase Analytics
 //        Answers.getInstance().logContentView(new ContentViewEvent()
 //                .putContentId(Hash.sha1(appName))
 //                .putContentName("App Activity")
