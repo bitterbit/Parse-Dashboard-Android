@@ -24,11 +24,11 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 28 //rootProject.ext.compileSdkVersion
+    compileSdkVersion 31 //rootProject.ext.compileSdkVersion
 
     defaultConfig {
         minSdkVersion 15 //rootProject.ext.minSdkVersion
-        targetSdkVersion 28 // rootProject.ext.targetSdkVersion
+        targetSdkVersion 31 // rootProject.ext.targetSdkVersion
         versionCode 1
         versionName project.version
         consumerProguardFiles 'release-proguard.pro'

@@ -18,11 +18,11 @@ repositories {
 
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.galtashma.parsedashboard"
         minSdkVersion 17
-        targetSdkVersion 28
+        targetSdkVersion 31
         versionCode 5
         versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
