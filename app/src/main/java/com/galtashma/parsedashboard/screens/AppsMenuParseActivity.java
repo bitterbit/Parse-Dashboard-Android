@@ -22,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.parse.Parse;
 import com.vlonjatg.progressactivity.ProgressRelativeLayout;
+import com.vorlonsoft.android.rate.AppRate;
 
 import java.util.List;
 
@@ -66,19 +67,22 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
 //        Answers.getInstance().logContentView(new ContentViewEvent()
 //                .putContentName("All Apps Activity")
 //                .putContentType("Screen"));
-//
-//        Stargazer.with(this).init("138d14dbfbef4570bf340407aa5acc3d")
-//                .setInstallDays(2)
-//                .setLaunchTimes(4);
+
+        AppRate.with(this)
+                .setInstallDays((byte) 2)
+                .setLaunchTimes((byte) 4)
+                .setShowLaterButton(true)
+                .setShowNeverButton(true)
+                .monitor();
 
         // Show dialog after 40 seconds
-//        final Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Stargazer.with(AppsMenuParseActivity.this).showIfMeetsConditions();
-//            }
-//        }, 1000*40);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppRate.showRateDialogIfMeetsConditions(AppsMenuParseActivity.this);
+            }
+        }, 1000*40);
     }
 
     private boolean isMainScreenEmpty(){
