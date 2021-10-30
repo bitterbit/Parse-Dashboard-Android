@@ -55,12 +55,6 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         statefulLayout = findViewById(R.id.stateful_layout);
         listView = findViewById(R.id.list_view);
         fetch();
-
-        // TODO Replace old code with Firebase Analytics
-//        Answers.getInstance().logContentView(new ContentViewEvent()
-//                .putContentId(Hash.sha1(className+objectId))
-//                .putContentName("Object Activity")
-//                .putContentType("Screen"));
     }
 
     private void fetch() {
@@ -129,9 +123,6 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         ClipData clip = ClipData.newPlainText(listItemView.getSubtitle(), listItemView.getTitle());
         clipboard.setPrimaryClip(clip);
         showMessage(getString(R.string.copied_to_clipboard));
-        // TODO Replace old code with Firebase Analytics
-//        Answers.getInstance().logCustom(new CustomEvent("Action")
-//                .putCustomAttribute("type", "copied field to clipboard"));
         return true;
     }
 
@@ -153,9 +144,6 @@ public class SingleObjectParseActivity extends AppCompatActivity implements GetC
         }
 
         statefulLayout.showEmpty(R.drawable.ic_parse_24dp, "Item Deleted", "The item was successfully deleted.");
-        // TODO Replace old code with Firebase Analytics
-//        Answers.getInstance().logCustom(new CustomEvent("Action")
-//                .putCustomAttribute("type", "remove object"));
     }
 
     private void showMessage(String message) {

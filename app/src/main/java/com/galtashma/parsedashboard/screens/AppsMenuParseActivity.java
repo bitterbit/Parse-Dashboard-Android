@@ -39,8 +39,6 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO Replace old code with Firebase Crashlytics
-//        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_apps_menu);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,11 +54,6 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         adapter.setListener(this);
-
-        // TODO Replace old code with Firebase Analytics
-//        Answers.getInstance().logContentView(new ContentViewEvent()
-//                .putContentName("All Apps Activity")
-//                .putContentType("Screen"));
 
         AppRate.with(this)
                 .setInstallDays((byte) 2)
@@ -103,9 +96,6 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         adapter.add(serverConfig);
         adapter.notifyDataSetChanged();
         toggleMainScreen(isMainScreenEmpty());
-        // TODO Replace old code with Firebase Analytics
-//        Answers.getInstance().logCustom(new CustomEvent("Action")
-//                .putCustomAttribute("type", "add new server config"));
     }
 
     private ParseServerConfig getConfigFromDialog(MaterialDialog dialog) {
@@ -176,10 +166,6 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         ((EditText)v.findViewById(R.id.inputAppId)).setText(config.appId);
         ((EditText)v.findViewById(R.id.inputAppMasterKey)).setText(config.masterKey);
         ((EditText)v.findViewById(R.id.inputServerUrl)).setText(config.serverUrl);
-
-        // TODO Replace old code with Firebase Analytics
-//        Answers.getInstance().logCustom(new CustomEvent("Action")
-//                .putCustomAttribute("type", "edit parse server config"));
     }
 
     @Override
@@ -188,9 +174,6 @@ public class AppsMenuParseActivity extends AppCompatActivity implements Material
         adapter.remove(config);
         adapter.notifyDataSetChanged();
         toggleMainScreen(isMainScreenEmpty());
-        // TODO Replace old code with Firebase Analytics
-//        Answers.getInstance().logCustom(new CustomEvent("Action")
-//                .putCustomAttribute("type", "delete parse server config"));
     }
 
     private void initParse(String appId, String serverUrl, String masterKey) {

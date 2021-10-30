@@ -53,12 +53,6 @@ public class SingleAppParseActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         fetchSchemasAsync();
-
-        // TODO Replace old code with Firebase Analytics
-//        Answers.getInstance().logContentView(new ContentViewEvent()
-//                .putContentId(Hash.sha1(appName))
-//                .putContentName("App Activity")
-//                .putContentType("Screen"));
     }
 
     private void fetchSchemasAsync() {
