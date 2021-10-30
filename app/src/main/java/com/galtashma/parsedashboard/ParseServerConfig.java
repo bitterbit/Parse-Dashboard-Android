@@ -13,7 +13,7 @@ public class ParseServerConfig {
 
     public ParseServerConfig(){}
 
-    public ParseServerConfig(String appName, String appId, String masterKey, String appUrl){
+    public ParseServerConfig(String appName, String appId, String masterKey, String appUrl) {
         this.appName = appName;
         this.appId = appId;
         this.masterKey = masterKey;

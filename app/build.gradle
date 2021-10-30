@@ -8,7 +8,7 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -18,11 +18,11 @@ repositories {
 
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.galtashma.parsedashboard"
         minSdkVersion 17
-        targetSdkVersion 28
+        targetSdkVersion 31
         versionCode 5
         versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -34,48 +34,48 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:cardview-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    testImplementation 'junit:junit:4.13.1'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     // for logging API calls to LogCat
 
-    compile project(path: ':Parse')
+    implementation project(path: ':Parse')
 
-    compile('com.github.bitterbit:LazyParse:0e6785db99') {
+    implementation('com.github.bitterbit:LazyParse:0e6785db99') {
         exclude group: 'com.parse'
         exclude group: 'com.android.support'
     }
 
-    compile 'com.lucasurbas:listitemview:1.1.0'
+    implementation 'com.lucasurbas:listitemview:1.1.0'
 
     implementation('com.afollestad.material-dialogs:core:0.9.6.0')
     implementation('com.afollestad.material-dialogs:commons:0.9.6.0')
 
-    compile('com.github.afollestad:ason:1.4.14') {
+    implementation('com.github.afollestad:ason:1.4.14') {
         exclude group: 'org.json', module: 'json'
     }
 
-    compile 'com.github.vlonjatg:progress-activity:2.0.5'
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
-        transitive = true;
-    }
-    compile('com.crashlytics.sdk.android:answers:1.4.1@aar') {
-        transitive = true;
-    }
+    implementation 'com.github.vlonjatg:progress-activity:2.0.5'
+//    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+//        transitive = true;
+//    }
+//    compile('com.crashlytics.sdk.android:answers:1.4.1@aar') {
+//        transitive = true;
+//    }
 
-    compile ('com.gtr.stargazer:stargazer-sdk:0.1.10') {
-        exclude group: 'com.parse', module: 'parse-android'
-    }
-
-    implementation 'com.github.yehiahd:FastSave-Android:1.0.4'
+    implementation 'com.github.yehiahd:FastSave-Android:1.0.6'
+    implementation 'com.vorlonsoft:androidrate:1.2.1'
 }

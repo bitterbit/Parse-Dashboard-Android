@@ -785,6 +785,6 @@ public class Parse {
   }
 
   static String externalVersionName() {
-    return "a" + ParseObject.VERSION_NAME;
+    return "a" + " VERSION_NAME";
   }
 }

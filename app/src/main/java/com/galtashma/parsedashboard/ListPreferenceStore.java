@@ -9,51 +9,51 @@ public class ListPreferenceStore {
     private List<String> list;
     private String prefId;
 
-    public ListPreferenceStore(String prefId){
+    public ListPreferenceStore(String prefId) {
         this.prefId = prefId;
         list = load();
     }
 
-    public List<String> getList(){
+    public List<String> getList() {
         return list;
     }
 
-    public void add(String key){
-        if (!exists(key)){
+    public void add(String key) {
+        if (!exists(key)) {
             list.add(key);
             save();
         }
     }
 
-    public void remove(String key){
-        if (list.contains(key)){
+    public void remove(String key) {
+        if (list.contains(key)) {
             list.remove(key);
         }
         save();
     }
 
-    public void reset(){
+    public void reset() {
         list = new ArrayList<>();
         save();
     }
 
-    public boolean exists(String key){
+    public boolean exists(String key) {
         return list.contains(key);
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return list.isEmpty();
     }
 
-    public int size(){
+    public int size() {
         return list.size();
     }
 
-    private void save(){
+    private void save() {
         FastSave.getInstance().saveObjectsList(prefId, list);
     }
 
-    private List<String> load(){
+    private List<String> load() {
         List<String> l = FastSave.getInstance().getObjectsList(prefId, String.class);
         if (l != null) {
             return l;

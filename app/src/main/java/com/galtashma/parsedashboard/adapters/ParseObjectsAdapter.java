@@ -1,11 +1,9 @@
 package com.galtashma.parsedashboard.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import androidx.annotation.NonNull;
 
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.LazyParseObjectHolder;
@@ -49,9 +47,9 @@ public class ParseObjectsAdapter extends ScrollInfiniteAdapter<ParseObject> {
         item.setMultiline(true);
 
         Map<String, String> fields = new HashMap<>();
-        for (String fieldName : previewFieldNames){
+        for (String fieldName : previewFieldNames) {
             String value = formatParseField(t, fieldName);
-            if (value != null){
+            if (value != null) {
                 fields.put(fieldName, formatParseField(t, fieldName));
             }
         }
@@ -59,15 +57,15 @@ public class ParseObjectsAdapter extends ScrollInfiniteAdapter<ParseObject> {
         return view;
     }
 
-    private String formatParseField(ParseObject t, String key){
+    private String formatParseField(ParseObject t, String key) {
         if (key.equals("createdAt")) {
             return t.getCreatedAt().toString();
         }
-        if (key.equals("updatedAt")){
+        if (key.equals("updatedAt")) {
             return t.getCreatedAt().toString();
         }
 
-        if (t.has(key)){
+        if (t.has(key)) {
             return t.get(key).toString();
         }
 
@@ -81,13 +79,13 @@ public class ParseObjectsAdapter extends ScrollInfiniteAdapter<ParseObject> {
         return view;
     }
 
-    private String mapToString(Map<String, String> map){
-        if (map.size() <= 0){
+    private String mapToString(Map<String, String> map) {
+        if (map.size() <= 0) {
             return "";
         }
         
         StringBuilder sb = new StringBuilder();
-        for(String k : map.keySet()){
+        for (String k : map.keySet()) {
             sb.append(k);
             sb.append(": ");
             sb.append(map.get(k));

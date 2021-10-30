@@ -2,27 +2,22 @@ package com.galtashma.parsedashboard.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ContentViewEvent;
-import com.crashlytics.android.answers.CustomEvent;
 import com.galtashma.lazyparse.LazyList;
 import com.galtashma.lazyparse.ScrollInfiniteAdapter;
 import com.galtashma.lazyparse.ScrollInfiniteListener;
 import com.galtashma.parsedashboard.Const;
-import com.galtashma.parsedashboard.Hash;
 import com.galtashma.parsedashboard.ListPreferenceStore;
 import com.galtashma.parsedashboard.SortPreferenceStore;
 import com.galtashma.parsedashboard.adapters.ParseObjectsAdapter;
@@ -52,16 +47,16 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_class);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extra = getIntent().getExtras();
-        if (extra == null){
+        if (extra == null) {
             extra = savedInstanceState;
         }
 
-        if (extra == null || !extra.containsKey(Const.BUNDLE_KEY_CLASS_NAME)){
+        if (extra == null || !extra.containsKey(Const.BUNDLE_KEY_CLASS_NAME)) {
             finish();
             return;
         }
@@ -69,23 +64,22 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         className = extra.getString(Const.BUNDLE_KEY_CLASS_NAME);
         setTitle(className);
 
-        if (extra.containsKey(Const.BUNDLE_KEY_CLASS_FIELDS_NAME)){
+        if (extra.containsKey(Const.BUNDLE_KEY_CLASS_FIELDS_NAME)) {
             fieldNames = extra.getStringArray(Const.BUNDLE_KEY_CLASS_FIELDS_NAME);
 
             // Remove objectId field as it is special and is displayed anyway
-            List<String> l = new ArrayList<String>(Arrays.asList(fieldNames));
-            if (l.contains("objectId")){
+            List<String> l = new ArrayList<>(Arrays.asList(fieldNames));
+            if (l.contains("objectId")) {
                 l.remove("objectId");
             }
 
             fieldNames = l.toArray(new String[l.size()]);
-
         } else {
             fieldNames = new String[]{"createdAt", "updatedAt"};
         }
 
-        visibleFieldsStore = new ListPreferenceStore(PREF_KEY+className);
-        if (visibleFieldsStore.isEmpty()){
+        visibleFieldsStore = new ListPreferenceStore(PREF_KEY + className);
+        if (visibleFieldsStore.isEmpty()) {
             visibleFieldsStore.add("createdAt");
             visibleFieldsStore.add("updatedAt");
         }
@@ -93,34 +87,35 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         sortPreferenceStore = new SortPreferenceStore(PREF_SORT + className);
         statefulLayout = findViewById(R.id.stateful_layout);
 
-        Answers.getInstance().logContentView(new ContentViewEvent()
-                .putContentId(Hash.sha1(className))
-                .putContentName("Class Activity")
-                .putContentType("Screen"));
+        // TODO Replace old code with Firebase Analytics
+//        Answers.getInstance().logContentView(new ContentViewEvent()
+//                .putContentId(Hash.sha1(className))
+//                .putContentName("Class Activity")
+//                .putContentType("Screen"));
 
         initList();
     }
 
-    private void initList(){
+    private void initList() {
         ListView listView = findViewById(R.id.list_view);
         statefulLayout.showLoading();
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(className);
+        ParseQuery<ParseObject> query = new ParseQuery<>(className);
 
-        if (!sortPreferenceStore.isEmpty()){
-            if (sortPreferenceStore.isAsc()){
+        if (!sortPreferenceStore.isEmpty()) {
+            if (sortPreferenceStore.isAsc()) {
                 query.orderByAscending(sortPreferenceStore.getKey());
             } else {
                 query.orderByDescending(sortPreferenceStore.getKey());
             }
         }
 
-        LazyList<ParseObject> list = new LazyList<ParseObject>(query);
-        adapter  = new ParseObjectsAdapter(this, list, visibleFieldsStore.getList());
+        LazyList<ParseObject> list = new LazyList<>(query);
+        adapter = new ParseObjectsAdapter(this, list, visibleFieldsStore.getList());
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new ScrollInfiniteListener(adapter));
         adapter.setOnClickListener(this);
 
-        if (list.getLimit() == 0){
+        if (list.getLimit() == 0) {
             statefulLayout.showEmpty(R.drawable.ic_parse_24dp, getString(R.string.empty_state_objects_screen_short), getString(R.string.empty_state_objects_screen_long));
             return;
         }
@@ -141,21 +136,22 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         return true;
     }
 
-    private void refresh(){
+    private void refresh() {
         initList();
     }
 
     public void onRefresh(MenuItem item) {
         refresh();
-        Answers.getInstance().logCustom(new CustomEvent("Action")
-                .putCustomAttribute("type", "refresh class activity"));
+        // TODO Replace old code with Firebase Analytics
+//        Answers.getInstance().logCustom(new CustomEvent("Action")
+//                .putCustomAttribute("type", "refresh class activity"));
     }
 
     public void onSelectFavFields(MenuItem item) {
         List<Integer> selectedIndices = new ArrayList<>();
 
-        for (int i=0; i<fieldNames.length; i++){
-            if (visibleFieldsStore.exists(fieldNames[i])){
+        for (int i=0; i<fieldNames.length; i++) {
+            if (visibleFieldsStore.exists(fieldNames[i])) {
                 selectedIndices.add(i);
             }
         }
@@ -165,24 +161,21 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
         new MaterialDialog.Builder(this)
                 .title(R.string.action_select_fav_fields)
                 .items(fieldNames)
-                .itemsCallbackMultiChoice(selectedIndices.toArray(new Integer[selectedIndices.size()]), new MaterialDialog.ListCallbackMultiChoice() {
-                    @Override
-                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                        visibleFieldsStore.reset();
-                        for(CharSequence key : text){
-                            visibleFieldsStore.add(key.toString());
-                        }
-                        adapter.updatePreviewFields(visibleFieldsStore.getList());
-                        return true;
+                .itemsCallbackMultiChoice(selectedIndices.toArray(new Integer[selectedIndices.size()]), (dialog, which, text) -> {
+                    visibleFieldsStore.reset();
+                    for (CharSequence key : text) {
+                        visibleFieldsStore.add(key.toString());
                     }
+                    adapter.updatePreviewFields(visibleFieldsStore.getList());
+                    return true;
                 })
                 .positiveText(R.string.save)
                 .show();
     }
 
-    private int findKeyIndex(String key){
-        for (int i=0; i<fieldNames.length; i++){
-            if (fieldNames[i].equals(key)){
+    private int findKeyIndex(String key) {
+        for (int i=0; i<fieldNames.length; i++) {
+            if (fieldNames[i].equals(key)) {
                 return i;
             }
         }
@@ -194,10 +187,10 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
                 .title("Sort Fields")
                 .customView(R.layout.dialog_field_sort, false).build();
 
-        final Spinner fieldSelector = (Spinner) dialog.getCustomView().findViewById(R.id.sort_dialog_selected_field);
-        final RadioButton ascRadioButton = (RadioButton) dialog.getCustomView().findViewById(R.id.sort_dialog_order_asc);
-        final RadioButton descRadioButton = (RadioButton) dialog.getCustomView().findViewById(R.id.sort_dialog_order_desc);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, fieldNames);
+        final Spinner fieldSelector = dialog.getCustomView().findViewById(R.id.sort_dialog_selected_field);
+        final RadioButton ascRadioButton = dialog.getCustomView().findViewById(R.id.sort_dialog_order_asc);
+        final RadioButton descRadioButton = dialog.getCustomView().findViewById(R.id.sort_dialog_order_desc);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, fieldNames);
         fieldSelector.setAdapter(adapter);
 
         if (!sortPreferenceStore.isEmpty()) {
@@ -209,24 +202,16 @@ public class SingleClassParseActivity extends AppCompatActivity implements Scrol
             }
         }
 
-        Button cancelButton = (Button) dialog.getCustomView().findViewById(R.id.sort_dialog_button_cancel);
-        Button confirmButton = (Button) dialog.getCustomView().findViewById(R.id.sort_dialog_button_confirm);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
+        Button cancelButton = dialog.getCustomView().findViewById(R.id.sort_dialog_button_cancel);
+        Button confirmButton = dialog.getCustomView().findViewById(R.id.sort_dialog_button_confirm);
+        cancelButton.setOnClickListener(view -> dialog.dismiss());
 
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String key = (String) fieldSelector.getSelectedItem();
-                boolean asc = ascRadioButton.isChecked();
-                sortPreferenceStore.update(key, asc);
-                dialog.dismiss();
-                refresh();
-            }
+        confirmButton.setOnClickListener(view -> {
+            String key = (String) fieldSelector.getSelectedItem();
+            boolean asc = ascRadioButton.isChecked();
+            sortPreferenceStore.update(key, asc);
+            dialog.dismiss();
+            refresh();
         });
 
         dialog.show();

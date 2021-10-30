@@ -226,9 +226,11 @@ public class ParseInstallation extends ParseObject {
         PLog.w(TAG, "Cannot load package info; will not be saved to installation");
       }
 
-      if (!VERSION_NAME.equals(get(KEY_PARSE_VERSION))) {
-        performPut(KEY_PARSE_VERSION, VERSION_NAME);
-      }
+      performPut(KEY_PARSE_VERSION, "VERSION_NAME");
+
+//      if (!VERSION_NAME.equals(get(KEY_PARSE_VERSION))) {
+//        performPut(KEY_PARSE_VERSION, VERSION_NAME);
+//      }
     }
   }
 
