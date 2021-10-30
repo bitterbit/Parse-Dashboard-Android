@@ -51,10 +51,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.galtashma.parsedashboard.screens.SingleClassParseActivity" />
         </activity>
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="ef2dcdc24492870e0cd95b8eba2103403c8dd1ff" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
