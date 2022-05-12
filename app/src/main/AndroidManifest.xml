@@ -18,7 +18,8 @@
         <activity
             android:name=".screens.AppsMenuParseActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar.Dark">
+            android:theme="@style/AppTheme.NoActionBar.Dark"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
