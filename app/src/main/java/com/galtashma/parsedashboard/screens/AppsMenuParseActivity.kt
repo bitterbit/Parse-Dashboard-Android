@@ -127,10 +127,6 @@ class AppsMenuParseActivity :
 
     override fun onClickOpen(config: ParseServerConfig) {
         val error = checkForParseConfigError(config)
-        println(config.appId)
-        println(config.appName)
-        println(config.serverUrl)
-        println(config.masterKey)
         if (error != null) {
             Snackbar.make(findViewById(R.id.stateful_layout), error, Snackbar.LENGTH_LONG).show()
             return
